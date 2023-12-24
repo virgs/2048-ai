@@ -1,0 +1,17 @@
+.grid {
+    display: grid;
+    height: 100%;
+    width: 100%;
+}
+
+.grid-row {
+    width: 100%;
+    max-width: calc(var(--container-size) - 8px);
+}
+
+.cell {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

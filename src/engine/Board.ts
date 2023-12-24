@@ -75,10 +75,13 @@ export class Board {
 
     private initializeGrid(): Grid {
         const board: Grid = [];
+        let value = 0;
         for (let i = 0; i < Board.SIZE; i++) {
             board[i] = [];
             for (let j = 0; j < Board.SIZE; j++) {
+                ++value
                 board[i][j] = 0;
+                board[i][j] = 2 ** value;
             }
         }
         return board;

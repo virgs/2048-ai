@@ -1,0 +1,6 @@
+.container-2048 {
+    width: var(--container-size);
+    height: var(--container-size);
+    background-color: var(--grid-background-color);
+    border-radius: var(--border-radius);
+}
