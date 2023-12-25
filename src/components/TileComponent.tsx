@@ -1,24 +1,31 @@
-import { useEffect, useState } from "react";
-import { colorsFromNumber } from "../Colors";
-import "./TileComponent.css";
-import { fontSizeFromNumber } from "../Size";
+import { useEffect, useState } from 'react'
+import { colorsFromNumber } from '../constants/Colors'
+import { fontSizeFromNumber } from '../constants/Size'
+import './TileComponent.css'
 
 export function TileComponent(props: { value: number }) {
-
-    const [value, updateValue] = useState(props.value);
+    const [classes, updateClasses] = useState('tile')
+    const [value, updateValue] = useState(props.value)
 
     useEffect(() => {
-        updateValue(props.value);
-    }, [props.value]);
+        console.log('number changed', value, props.value)
+        updateValue(props.value)
+        if (props.value > 0) {
+            updateClasses(classes + ' animate')
+            setTimeout(() => {
+                updateClasses('tile')
+            }, 750)
+        }
+    }, [props.value])
 
     const style = {
         ...colorsFromNumber(value),
-        fontSize: fontSizeFromNumber(value)
+        fontSize: fontSizeFromNumber(value),
     }
-    return (
-        <div onClick={() => updateValue(value > 0 ? value * 2 : 1)} className="tile" style={style}>
-            {value}
-        </div>
-    );
-}
 
+    return (
+        <div className={classes} style={style}>
+            {value > 0 ? value : ''}
+        </div>
+    )
+}

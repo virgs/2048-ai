@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <ContainerComponent></ContainerComponent>
+      <ContainerComponent ></ContainerComponent>
     </>
   )
 }

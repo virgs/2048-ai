@@ -4,3 +4,7 @@
     background-color: var(--grid-background-color);
     border-radius: var(--border-radius);
 }
+
+.container-2048:focus-visible {
+    outline: none;
+}

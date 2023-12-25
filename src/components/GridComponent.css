@@ -9,7 +9,7 @@
     max-width: calc(var(--container-size) - 8px);
 }
 
-.cell {
+.grid-cell {
     height: 100%;
     display: flex;
     justify-content: center;
