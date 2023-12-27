@@ -2,21 +2,21 @@ import { Point } from '../constants/Point'
 import { Board, Grid } from './Board'
 import { Direction } from './Direction'
 
-type Change = {
-    oldPosition: Point
-    newPosition: Point
+export type Translation = {
+    from: Point
+    to: Point
 }
 
 type MoveResult = {
     board: Board
-    changes: Change[]
+    translations: Translation[]
 }
 
 export class BoardMover {
-    private grid: Grid
+    private board: Board
 
     constructor(board: Board) {
-        this.grid = board.grid
+        this.board = board
     }
 
     public canMove(direction: Direction): boolean {
@@ -35,6 +35,12 @@ export class BoardMover {
     }
 
     public move(direction: Direction): MoveResult {
+        if (!this.canMove(direction)) {
+            return {
+                board: this.board,
+                translations: [],
+            }
+        }
         switch (direction) {
             case Direction.Left:
                 return this.moveLeft()
@@ -50,7 +56,7 @@ export class BoardMover {
     private canMoveInDirection(colDelta: number, rowDelta: number): boolean {
         for (let row = 0; row < Board.SIZE; row++) {
             for (let col = 0; col < Board.SIZE; col++) {
-                const tile = this.grid[row][col]
+                const tile = this.board.grid[row][col]
 
                 if (tile !== 0) {
                     const newRow = row + rowDelta
@@ -61,7 +67,7 @@ export class BoardMover {
                         newRow < Board.SIZE &&
                         newCol >= 0 &&
                         newCol < Board.SIZE &&
-                        (this.grid[newRow][newCol] === 0 || this.grid[newRow][newCol] === tile)
+                        (this.board.grid[newRow][newCol] === 0 || this.board.grid[newRow][newCol] === tile)
                     ) {
                         return true
                     }
@@ -73,12 +79,12 @@ export class BoardMover {
     }
 
     private moveUp(): MoveResult {
-        const changes: Change[] = []
+        const changes: Translation[] = []
         let score = 0
         const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
 
         for (let col = 0; col < Board.SIZE; col++) {
-            const tiles: number[] = this.grid.map((row) => row[col])
+            const tiles: number[] = this.board.grid.map((row) => row[col])
             const mergedTiles: number[] = []
 
             for (let i = 0; i < tiles.length; i++) {
@@ -98,8 +104,8 @@ export class BoardMover {
                     }
                     if (i !== mergedTiles.length - 1) {
                         changes.push({
-                            oldPosition: { y: i, x: col },
-                            newPosition: { y: mergedTiles.length - 1, x: col },
+                            from: { y: i, x: col },
+                            to: { y: mergedTiles.length - 1, x: col },
                         })
                     }
                 }
@@ -115,20 +121,20 @@ export class BoardMover {
                 newBoard[i][col] = 0
             }
         }
-
+        // console.log(changes)
         return {
             board: new Board({ grid: newBoard, score: score }),
-            changes,
+            translations: changes,
         }
     }
 
     private moveDown(): MoveResult {
-        const changes: Change[] = []
+        const changes: Translation[] = []
         let score = 0
         const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
 
         for (let col = 0; col < Board.SIZE; col++) {
-            const tiles: number[] = this.grid.map((row) => row[col])
+            const tiles: number[] = this.board.grid.map((row) => row[col])
             const mergedTiles: number[] = []
 
             for (let i = tiles.length - 1; i >= 0; i--) {
@@ -148,8 +154,8 @@ export class BoardMover {
                     }
                     if (i !== Board.SIZE - 1 - (mergedTiles.length - 1)) {
                         changes.push({
-                            oldPosition: { y: i, x: col },
-                            newPosition: { y: Board.SIZE - 1 - (mergedTiles.length - 1), x: col },
+                            from: { y: i, x: col },
+                            to: { y: Board.SIZE - 1 - (mergedTiles.length - 1), x: col },
                         })
                     }
 
@@ -166,20 +172,20 @@ export class BoardMover {
                 newBoard[i][col] = 0
             }
         }
-
+        // console.log(changes)
         return {
             board: new Board({ grid: newBoard, score: score }),
-            changes: changes,
+            translations: changes,
         }
     }
 
     private moveLeft(): MoveResult {
-        const changes: Change[] = []
+        const changes: Translation[] = []
         let score = 0
         const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
 
         for (let row = 0; row < Board.SIZE; row++) {
-            const tiles: number[] = this.grid[row]
+            const tiles: number[] = this.board.grid[row]
             const mergedTiles: number[] = []
 
             for (let i = 0; i < tiles.length; i++) {
@@ -199,8 +205,8 @@ export class BoardMover {
                     }
                     if (i !== mergedTiles.length - 1) {
                         changes.push({
-                            oldPosition: { y: row, x: i },
-                            newPosition: { y: row, x: mergedTiles.length - 1 },
+                            from: { y: row, x: i },
+                            to: { y: row, x: mergedTiles.length - 1 },
                         })
                     }
                 }
@@ -217,19 +223,20 @@ export class BoardMover {
             }
         }
 
+        // console.log(changes)
         return {
             board: new Board({ grid: newBoard, score: score }),
-            changes,
+            translations: changes,
         }
     }
 
     private moveRight(): MoveResult {
-        const changes: Change[] = []
+        const changes: Translation[] = []
         let score = 0
         const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
 
         for (let row = 0; row < Board.SIZE; row++) {
-            const tiles: number[] = this.grid[row]
+            const tiles: number[] = this.board.grid[row]
             const mergedTiles: number[] = []
 
             for (let i = tiles.length - 1; i >= 0; i--) {
@@ -249,8 +256,8 @@ export class BoardMover {
                     }
                     if (i !== Board.SIZE - 1 - (mergedTiles.length - 1)) {
                         changes.push({
-                            oldPosition: { y: row, x: i },
-                            newPosition: { y: row, x: Board.SIZE - 1 - (mergedTiles.length - 1) },
+                            from: { y: row, x: i },
+                            to: { y: row, x: Board.SIZE - 1 - (mergedTiles.length - 1) },
                         })
                     }
                 }
@@ -266,10 +273,11 @@ export class BoardMover {
                 newBoard[row][i] = 0
             }
         }
+        // console.log(changes)
 
         return {
             board: new Board({ grid: newBoard, score: score }),
-            changes,
+            translations: changes,
         }
     }
 }

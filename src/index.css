@@ -6,6 +6,7 @@
     --border-radius: 7px;
     --grid-background-color: #bbada0;
     --container-size: min(100vmin, 500px);
+    --animation-duration: 150ms;
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);

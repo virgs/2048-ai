@@ -1,13 +1,17 @@
 import { Direction } from '../engine/Direction'
 
-export type Point = {
-    x: number
-    y: number
+export interface Point {
+    x: number;
+    y: number;
 }
 
 export type ApproximateDirectionOptions = {
     minLength: number
     degreesTolerance: number
+}
+
+export const pointsAreEqual = (a: Point, b: Point): boolean => {
+    return a.x === b.x && a.y === b.y
 }
 
 export const vectorApproximateDirection = (

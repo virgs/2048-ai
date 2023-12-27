@@ -19,7 +19,7 @@ export class Board {
         } else {
             this._grid = this.initializeGrid()
             this._score = 0
-            this.addRandomTile()
+            // this.addRandomTile()
             this.addRandomTile()
         }
     }

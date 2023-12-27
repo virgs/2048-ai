@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Point, vectorApproximateDirection } from '../constants/Point'
 import { Board } from '../engine/Board'
-import { BoardMover } from '../engine/BoardMover'
+import { BoardMover, Translation } from '../engine/BoardMover'
 import { Direction } from '../engine/Direction'
 import './ContainerComponent.css'
 import { GridComponent } from './GridComponent'
 
 export function ContainerComponent() {
     const [board, updateBoard] = useState<Board>(new Board())
+    const [changes, updateChanges] = useState<Translation[]>([])
     const [pointerDownCoordinates, setPointerDownCoordinates] = useState<Point>({ x: 0, y: 0 })
 
     const onPointerUp = (point: Point) => {
@@ -19,11 +20,12 @@ export function ContainerComponent() {
             { minLength: 50, degreesTolerance: 30 }
         )
         if (direction !== undefined) {
-            console.log(Direction[direction])
             const afterMove = new BoardMover(board).move(direction)
-            console.log(afterMove.changes)
-            afterMove.board.print()
+            updateChanges(afterMove.translations)
             updateBoard(afterMove.board)
+            if (afterMove.board.gameIsOver()) {
+                console.log('game over')
+            }
         }
     }
 
@@ -45,11 +47,13 @@ export function ContainerComponent() {
         }
 
         if (direction !== undefined) {
-            console.log(Direction[direction])
+            // console.log(Direction[direction])
             const afterMove = new BoardMover(board).move(direction)
-            console.log(afterMove.changes)
-            afterMove.board.print()
+            updateChanges(afterMove.translations)
             updateBoard(afterMove.board)
+            if (afterMove.board.gameIsOver()) {
+                console.log('game over')
+            }
         }
     }
 
@@ -61,7 +65,7 @@ export function ContainerComponent() {
             onKeyUp={(event) => handleKeyPress(event.code)}
             tabIndex={0}
         >
-            <GridComponent grid={board.grid}></GridComponent>
+            <GridComponent translations={changes} grid={board.grid}></GridComponent>
         </div>
     )
 }
