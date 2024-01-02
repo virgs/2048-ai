@@ -15,13 +15,35 @@ export class Board {
         if (clone) {
             this._grid = clone.grid.map((row) => row.slice())
             this._score = clone.score
-            this.addRandomTile()
         } else {
             this._grid = this.initializeGrid()
             this._score = 0
-            // this.addRandomTile()
+            this.addRandomTile()
             this.addRandomTile()
         }
+    }
+
+    public clone(): Board {
+        return new Board({ grid: this._grid.map((row) => row.slice()), score: this._score })
+    }
+
+    public addRandomTile(): boolean {
+        const emptyCells: [number, number][] = []
+        for (let i = 0; i < Board.SIZE; i++) {
+            for (let j = 0; j < Board.SIZE; j++) {
+                if (this.grid[i][j] === 0) {
+                    emptyCells.push([i, j])
+                }
+            }
+        }
+
+        if (emptyCells.length > 0) {
+            const randomIndex = Math.floor(Math.random() * emptyCells.length)
+            const [row, col] = emptyCells[randomIndex]
+            this.grid[row][col] = Math.random() < Board.NEW_CELL_VALUE_TWO_PROBABILITY ? 2 : 4
+            return true
+        }
+        return false
     }
 
     public print(): void {
@@ -83,24 +105,5 @@ export class Board {
             }
         }
         return board
-    }
-
-    private addRandomTile(): boolean {
-        const emptyCells: [number, number][] = []
-        for (let i = 0; i < 4; i++) {
-            for (let j = 0; j < 4; j++) {
-                if (this.grid[i][j] === 0) {
-                    emptyCells.push([i, j])
-                }
-            }
-        }
-
-        if (emptyCells.length > 0) {
-            const randomIndex = Math.floor(Math.random() * emptyCells.length)
-            const [row, col] = emptyCells[randomIndex]
-            this.grid[row][col] = Math.random() < Board.NEW_CELL_VALUE_TWO_PROBABILITY ? 2 : 4
-            return true
-        }
-        return false
     }
 }

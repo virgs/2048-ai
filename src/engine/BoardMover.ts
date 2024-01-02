@@ -1,5 +1,5 @@
 import { Point } from '../constants/Point'
-import { Board, Grid } from './Board'
+import { Board } from './Board'
 import { Direction } from './Direction'
 
 export type Translation = {
@@ -16,7 +16,7 @@ export class BoardMover {
     private board: Board
 
     constructor(board: Board) {
-        this.board = board
+        this.board = board.clone()
     }
 
     public canMove(direction: Direction): boolean {
@@ -121,9 +121,10 @@ export class BoardMover {
                 newBoard[i][col] = 0
             }
         }
-        // console.log(changes)
+        const board = new Board({ grid: newBoard, score: this.board.score + score })
+        board.addRandomTile()
         return {
-            board: new Board({ grid: newBoard, score: score }),
+            board: board,
             translations: changes,
         }
     }
@@ -158,7 +159,6 @@ export class BoardMover {
                             to: { y: Board.SIZE - 1 - (mergedTiles.length - 1), x: col },
                         })
                     }
-
                 }
             }
 
@@ -172,9 +172,10 @@ export class BoardMover {
                 newBoard[i][col] = 0
             }
         }
-        // console.log(changes)
+        const board = new Board({ grid: newBoard, score: this.board.score + score })
+        board.addRandomTile()
         return {
-            board: new Board({ grid: newBoard, score: score }),
+            board: board,
             translations: changes,
         }
     }
@@ -223,9 +224,10 @@ export class BoardMover {
             }
         }
 
-        // console.log(changes)
+        const board = new Board({ grid: newBoard, score: this.board.score + score })
+        board.addRandomTile()
         return {
-            board: new Board({ grid: newBoard, score: score }),
+            board: board,
             translations: changes,
         }
     }
@@ -273,10 +275,10 @@ export class BoardMover {
                 newBoard[row][i] = 0
             }
         }
-        // console.log(changes)
-
+        const board = new Board({ grid: newBoard, score: this.board.score + score })
+        board.addRandomTile()
         return {
-            board: new Board({ grid: newBoard, score: score }),
+            board: board,
             translations: changes,
         }
     }

@@ -1,10 +1,6 @@
-.container-2048 {
+.board {
     width: var(--container-size);
     height: var(--container-size);
     background-color: var(--grid-background-color);
     border-radius: var(--border-radius);
-}
-
-.container-2048:focus-visible {
-    outline: none;
 }

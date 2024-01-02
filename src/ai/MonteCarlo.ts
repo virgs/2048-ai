@@ -18,14 +18,12 @@ export class MonteCarlo {
         this.runs = runs
     }
 
-    public findBestMove(board: Board): Direction | null {
+    public findBestMove(board: Board): Direction | undefined {
         const directionsScoreMap: Map<Direction, number[]> = new Map()
         Directions.filter((direction) => new BoardMover(board).canMove(direction)).forEach((direction) => {
-            // console.log(Direction[direction])
-            const startingPoint = new BoardMover(board).makeMove(direction)
+            const startingPoint = new BoardMover(board).move(direction)
             for (let i = 0; i < this.runs; i++) {
-                const simulationScore = this.randomlyPlayUntilItsOver(startingPoint)
-                // console.log(simulationScore)
+                const simulationScore = this.randomlyPlayUntilItsOver(startingPoint.board)
                 if (directionsScoreMap.has(direction)) {
                     directionsScoreMap.get(direction)!.push(simulationScore)
                 } else {
@@ -40,7 +38,6 @@ export class MonteCarlo {
         }
         directionsScoreMap.forEach((scores, direction) => {
             const avg = scores.reduce((acc, score) => acc + score, 0) / scores.length
-            // console.log(Direction[direction], avg)
             if (avg > bestChild.avg || bestChild.avg === -1) {
                 bestChild.direction = direction
                 bestChild.avg = avg
@@ -55,9 +52,13 @@ export class MonteCarlo {
         while (!simulationBoard.gameIsOver()) {
             const boardMover = new BoardMover(simulationBoard)
 
-            const possibleDirections = Directions.filter((direction) => boardMover.canMove(direction))
-            const randomMove = possibleDirections[Math.floor(Math.random() * possibleDirections.length)]
-            simulationBoard = boardMover.makeMove(randomMove)
+            const availableDirections = Directions.filter((direction) => boardMover.canMove(direction))
+            if (availableDirections.length === 0) {
+                console.log('no move available')
+                break
+            }
+            const randomMove = availableDirections[Math.floor(Math.random() * availableDirections.length)]
+            simulationBoard = boardMover.move(randomMove).board
         }
         return simulationBoard.score
     }

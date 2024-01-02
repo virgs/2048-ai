@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
 import { colorsFromNumber } from '../constants/Colors'
 import { fontSizeFromNumber } from '../constants/Size'
+import { animationDuration } from '../constants/Animation'
 import { Translation } from '../engine/BoardMover'
 import './TileComponent.css'
 
-export function TileComponent(props: { value: number, id: number, coming?: Translation }) {
-    const animationDuration = Number(getComputedStyle(document.documentElement)
-        .getPropertyValue('--animation-duration').replace(/[a-zA-Z]+/g, ''));
+export function TileComponent(props: { value: number; id: number; coming?: Translation }) {
+    const [timer, setTimer] = useState<number>(0)
     const defaultClasses = 'tile'
     const [value, setValue] = useState(props.value)
-    // const [translation, updateTranslation] = useState(props.translation)
     const [classes, setClasses] = useState(defaultClasses)
     const defaultStyle = () => ({
         ...colorsFromNumber(props.value),
@@ -22,30 +21,42 @@ export function TileComponent(props: { value: number, id: number, coming?: Trans
     }
 
     useEffect(() => {
-
-        console.log('effect', props, value, props.id)
+        if (timer) {
+            setValue(props.value)
+            setStyle(defaultStyle())
+            removeAnimationClasses()
+            clearTimeout(timer)
+            setTimer(0)
+        }
+        // console.log('effect', props, value, props.id)
         if (props.coming) {
-            if (props.value === 0) {
-                console.log('disappear', props, props.id)
-                // setValue(props.value)
-                // setStyle(defaultStyle())
-            } else if (value > 0) {
-                //merge
-                // console.log('merge', props)
-                setTimeout(() => {
-                    setValue(props.value)
-                    setStyle(defaultStyle())
-                    setClasses(classes + ' fadeInScale')
+            if (value > 0) {
+                // console.log('replaced', props, props.id)
+                setTimer(
                     setTimeout(() => {
-                        removeAnimationClasses()
+                        setValue(props.value)
+                        setStyle(defaultStyle())
+                        if (props.value === value * 2) {
+                            // merge
+                            setClasses(classes + ' fadeInScale')
+                            setTimer(
+                                setTimeout(() => {
+                                    setTimer(0)
+                                    removeAnimationClasses()
+                                }, animationDuration)
+                            )
+                        }
                     }, animationDuration)
-                }, animationDuration)
+                )
             } else if (props.value > 0 && value === 0) {
                 // console.log('I was zero and it slided into me, props.id')
-                setTimeout(() => {
-                    setValue(props.value)
-                    setStyle(defaultStyle())
-                }, animationDuration)
+                setTimer(
+                    setTimeout(() => {
+                        setValue(props.value)
+                        setTimer(0)
+                        setStyle(defaultStyle())
+                    }, animationDuration)
+                )
             }
         } else {
             if (value > props.value) {
@@ -54,21 +65,21 @@ export function TileComponent(props: { value: number, id: number, coming?: Trans
                 setStyle(defaultStyle())
             } else if (props.value > value || value > 0) {
                 // console.log('appear out of nowhere', props.value, value, props.id)
-                setTimeout(() => {
-                    setStyle(defaultStyle())
-                    setClasses(classes + ' fadeInScale')
+                setTimer(
                     setTimeout(() => {
-                        setValue(props.value)
-                        removeAnimationClasses()
-                    }, animationDuration)
-                }, animationDuration)
-            } else {
-                console.log('else', props.value, value, props.id)
-                // setValue(props.value)
-                // setStyle(defaultStyle())
+                        setStyle(defaultStyle())
+                        setClasses(classes + ' fadeInScale')
+                        setTimer(
+                            setTimeout(() => {
+                                setValue(props.value)
+                                setTimer(0)
+                                removeAnimationClasses()
+                            }, animationDuration)
+                        )
+                    }, 2 * animationDuration)
+                )
             }
         }
-
     }, [props.value])
 
     return (

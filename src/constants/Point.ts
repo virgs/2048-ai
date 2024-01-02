@@ -1,8 +1,8 @@
 import { Direction } from '../engine/Direction'
 
 export interface Point {
-    x: number;
-    y: number;
+    x: number
+    y: number
 }
 
 export type ApproximateDirectionOptions = {

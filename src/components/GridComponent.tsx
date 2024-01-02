@@ -3,6 +3,7 @@ import { pointsAreEqual } from '../constants/Point'
 import { Board, Grid } from '../engine/Board'
 import { Translation } from '../engine/BoardMover'
 import './GridComponent.css'
+import { animationDuration } from '../constants/Animation'
 import { TileComponent } from './TileComponent'
 
 const translate = (translation: Translation, animationDuration: number): void => {
@@ -27,14 +28,11 @@ const translate = (translation: Translation, animationDuration: number): void =>
     }
 }
 
-export function GridComponent({ grid, translations }: { grid: Grid, translations: Translation[] }) {
+export function GridComponent({ grid, translations }: { grid: Grid; translations: Translation[] }) {
     const tileSize = 100 / Board.SIZE + '%'
-    const animationDuration = Number(getComputedStyle(document.documentElement)
-        .getPropertyValue('--animation-duration').replace(/[a-zA-Z]+/g, ''));
 
     useEffect(() => {
-        translations
-            .forEach(translation => translate(translation, animationDuration));
+        translations.forEach((translation) => translate(translation, animationDuration))
     }, [translations])
 
     return (
@@ -42,13 +40,15 @@ export function GridComponent({ grid, translations }: { grid: Grid, translations
             {grid.map((row, rowIndex) => (
                 <div key={rowIndex} className="grid-row btn-group">
                     {row.map((cell, colIndex) => (
-                        <div key={colIndex} className="grid-cell" style={{ width: tileSize }}>
+                        <div key={colIndex} className="grid-cell p-1" style={{ width: tileSize }}>
                             <TileComponent
                                 id={rowIndex * Board.SIZE + colIndex}
                                 // leaving={translations.find(translation => pointsAreEqual(translation.from, { x: colIndex, y: rowIndex }))}
-                                coming={translations.find(translation => pointsAreEqual(translation.to, { x: colIndex, y: rowIndex }))}
-                                value={cell}>
-                            </TileComponent>
+                                coming={translations.find((translation) =>
+                                    pointsAreEqual(translation.to, { x: colIndex, y: rowIndex })
+                                )}
+                                value={cell}
+                            ></TileComponent>
                         </div>
                     ))}
                 </div>
