@@ -5,7 +5,7 @@
 }
 
 .title {
-    font-size: 85px;
+    font-size: 65px;
     font-weight: bold;
     margin: 0;
     float: left;
@@ -40,6 +40,7 @@
 }
 
 .game-button {
+    color: #eee4da;
     background: #8f7a66;
     border-radius: 3px;
     width: 100%;
@@ -56,5 +57,6 @@
 
 .moves-text {
     margin-left: 15px;
+    letter-spacing: 3px;
     float: right;
 }

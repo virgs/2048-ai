@@ -14,10 +14,10 @@ function Heading({ score, moves, onAiButtonHit, newGameButtonHit }: HeadingProps
   const mappedMoves = () => moves
     .map(move => {
       switch (move) {
-        case Direction.Up: return '⬆️'
-        case Direction.Down: return '⬇️'
-        case Direction.Left: return '⬅️'
-        case Direction.Right: return '➡️'
+        case Direction.Up: return '⬆'
+        case Direction.Down: return '⬇'
+        case Direction.Left: return '⬅'
+        case Direction.Right: return '➡'
       }
     })
     .join('')
@@ -27,7 +27,6 @@ function Heading({ score, moves, onAiButtonHit, newGameButtonHit }: HeadingProps
     if (text) {
       const textWidth = text.scrollWidth
       const parentWidth = text.parentElement!.clientWidth
-      console.log(textWidth, parentWidth, textWidth > parentWidth)
       if (textWidth > parentWidth) {
         setMovesTextHasOverflown(true)
       }
@@ -36,7 +35,7 @@ function Heading({ score, moves, onAiButtonHit, newGameButtonHit }: HeadingProps
 
   return (
     <div className='heading container mx-auto m-0 p-md-0'>
-      <div className='row g-0 justify-content-between align-items-center mb-3'>
+      <div className='row g-0 justify-content-between align-items-center mb-2'>
         <div className='col-6'>
           <h1 className='title'>2048</h1>
         </div>
@@ -47,15 +46,15 @@ function Heading({ score, moves, onAiButtonHit, newGameButtonHit }: HeadingProps
           </div>
         </div>
       </div>
-      <div className='row g-0 justify-content-between align-items-center mb-3'>
+      <div className='row g-0 justify-content-between align-items-center mb-2'>
         <div className='col-6'>
-          <div style={{ textAlign: 'left', fontSize: '24px' }}>Join the tiles, get to <strong>2048!</strong></div>
+          <div style={{ textAlign: 'left', fontSize: '22px' }}>Join the tiles, get to <strong>2048!</strong></div>
         </div>
         <div className='col-5 col-sm-4'>
-          <button className='game-button' onClick={newGameButtonHit}>New Game</button>
+          <button type='button' className='btn game-button' onClick={newGameButtonHit}>New Game</button>
         </div>
       </div>
-      <div className='row g-0 justify-content-between align-items-center mb-3'>
+      <div className='row g-0 justify-content-between align-items-center mb-2'>
         <div className='col-12'>
           <div className='pannel'>
             <div className='pannel-title'>moves ({moves.length})
@@ -71,16 +70,16 @@ function Heading({ score, moves, onAiButtonHit, newGameButtonHit }: HeadingProps
           </div>
         </div>
       </div>
-      <div className='row mb-3 align-items-center'>
-        <div className='col-auto' style={{ fontWeight: 'bolder', fontSize: '20px' }}>AI</div>
-        <div className='col' style={{ borderTop: '1px solid #bbada0', width: '100%' }}></div>
+      <div className='row mb-1 g-0 align-items-center'>
+        <div className='col-auto' style={{ fontWeight: 'bolder', fontSize: '16px' }}>AI</div>
+        <div className='col ms-2' style={{ borderTop: '1.5px solid #bbada0', width: '100%' }}></div>
       </div>
-      <div className='row justify-content-between align-items-center mb-3'>
+      <div className='row justify-content-between align-items-center mb-2'>
         <div className='col-6'>
-          <button className='game-button' onClick={() => onAiButtonHit(1)}>One step</button>
+          <button type="button" className='btn button-secondary game-button' onClick={() => onAiButtonHit(1)}>One step</button>
         </div>
         <div className='col-6'>
-          <button className='game-button' onClick={() => onAiButtonHit(2)}>{true ? 'Play forever' : 'Stop playing'}</button>
+          <button type="button" className='btn button-primary game-button' onClick={() => onAiButtonHit(2)}>{true ? 'Play forever' : 'Stop playing'}</button>
         </div>
       </div>
     </div>

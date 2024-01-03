@@ -55,7 +55,7 @@ function App() {
     <div
       id="app"
       className="container p-0"
-      style={{ minWidth: '100vw' }}
+      style={{ minWidth: '100dvw' }}
       autoFocus
       onKeyDown={event => {
         if (keyCodeToDirection(event.code) !== undefined) {
