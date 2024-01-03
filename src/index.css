@@ -6,7 +6,7 @@
     --font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
     --border-radius: 7px;
     --grid-background-color: #bbada0;
-    --container-size: min(100dvmin, 500px);
+    --container-size: min(90dvmin, 500px);
     --animation-duration: 150ms;
 
     color-scheme: light dark;

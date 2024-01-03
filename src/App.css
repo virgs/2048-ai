@@ -3,7 +3,8 @@
     text-align: center;
 }
 
-#app {}
+#app {
+}
 
 #app:focus-visible {
     outline: none;

@@ -1,6 +1,6 @@
 .heading {
     width: var(--container-size);
-    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
     color: #776e65;
 }
 
@@ -41,10 +41,18 @@
 
 .game-button {
     color: #eee4da;
-    background: #8f7a66;
+    background-color: #8f7a66;
     border-radius: 3px;
     width: 100%;
     font-weight: bold;
+}
+
+.game-button:hover,
+.game-button:focus,
+.game-button:focus-visible,
+.game-button:active {
+    background-color: #8f7a66;
+    color: white;
 }
 
 .moves-ellipsis {
@@ -59,4 +67,6 @@
     margin-left: 15px;
     letter-spacing: 3px;
     float: right;
+    color: white;
+    transition: float ease 200ms;
 }
