@@ -1,7 +1,6 @@
 {
-  "name": "my-vue-app",
-  "private": true,
-  "version": "0.0.0",
+  "name": "2048-ai",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,9 +22,9 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "prettier": "^3.0.3",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8",
-    "prettier": "^3.0.3"
+    "vite": "^5.0.8"
   },
   "prettier": {
     "trailingComma": "es5",

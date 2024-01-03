@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { MonteCarlo } from './ai/MonteCarlo'
 import { BoardComponent } from './components/BoardComponent'
@@ -40,6 +40,10 @@ function App() {
             setBoard(makeMove(board, direction))
         }
     }
+
+    useEffect(() => {
+        console.log('score', board.score)
+    }, [board])
 
     const onAiAction = async (buttonClickAction: AiAction) => {
         setLastAiAction(() => buttonClickAction)

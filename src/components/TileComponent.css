@@ -8,6 +8,9 @@
     font-weight: bold;
     font-family: var(--font-family);
     border-radius: var(--border-radius);
+
+    -webkit-transition: transform var(--animation-duration);
+    -webkit-transition: -webkit-transform var(--animation-duration);
     transition: transform ease var(--animation-duration);
 }
 
