@@ -36,11 +36,11 @@ export function GridComponent({ grid, translations }: { grid: Grid; translations
     }, [translations])
 
     return (
-        <div className="grid p-1">
+        <div className="grid p-2">
             {grid.map((row, rowIndex) => (
                 <div key={rowIndex} className="grid-row btn-group">
                     {row.map((cell, colIndex) => (
-                        <div key={colIndex} className="grid-cell p-1" style={{ width: tileSize }}>
+                        <div key={colIndex} className="grid-cell p-2" style={{ width: tileSize }}>
                             <TileComponent
                                 id={rowIndex * Board.SIZE + colIndex}
                                 // leaving={translations.find(translation => pointsAreEqual(translation.from, { x: colIndex, y: rowIndex }))}

@@ -2,15 +2,6 @@ import { Board } from '../engine/Board'
 import { BoardMover } from '../engine/BoardMover'
 import { Direction, Directions } from '../engine/Direction'
 
-// type Node = {
-//     board: Board;
-//     visits: number;
-//     score: number;
-//     children: Node[];
-//     parent: Node | null;
-//     move: Direction | null;
-// };
-
 export class MonteCarlo {
     private readonly runs: number
 

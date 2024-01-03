@@ -3,6 +3,8 @@
     text-align: center;
 }
 
+#app {}
+
 #app:focus-visible {
     outline: none;
 }
