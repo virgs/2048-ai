@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
-import './Heading.css'
-import { Direction } from './engine/Direction'
-import { AiAction } from './constants/AiAction'
+import './HeadingComponent.css'
+import { Direction } from '../engine/Direction'
+import { AiAction } from '../constants/AiAction'
 import { Play, SkipForward, X, RefreshCw } from 'react-feather'
+import { Board } from '../engine/Board'
 
 type HeadingProps = {
+    board: Board
     score: number
     moves: Direction[]
     aiIsPlaying: boolean
@@ -14,7 +16,14 @@ type HeadingProps = {
 
 const featherIconSize = '.9rem'
 
-export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newGameButtonHit }: HeadingProps) {
+export default function HeadingComponent({
+    board,
+    score,
+    moves,
+    aiIsPlaying,
+    onAiButtonHit,
+    newGameButtonHit,
+}: HeadingProps) {
     const [movesTextHasOverflown, setMovesTextHasOverflown] = useState<Boolean>(false)
     const mappedMoves = () =>
         moves
@@ -47,18 +56,23 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
         if (aiIsPlaying) {
             return (
                 <button
+                    disabled={board.gameIsOver()}
                     type="button"
                     className="btn game-button abort-button"
                     onClick={() => onAiButtonHit(AiAction.STOP_PLAYING)}
                 >
-                    <X size={featherIconSize} className="feather-icon" /> Abort
+                    <X size={featherIconSize} className="feather-icon" />
                 </button>
             )
         } else {
             return (
-                <button type="button" className="btn game-button" onClick={() => onAiButtonHit(AiAction.KEEP_PLAYING)}>
+                <button
+                    disabled={board.gameIsOver()}
+                    type="button"
+                    className="btn game-button"
+                    onClick={() => onAiButtonHit(AiAction.KEEP_PLAYING)}
+                >
                     <Play size={featherIconSize} className="feather-icon" />
-                    Play
                 </button>
             )
         }
@@ -84,9 +98,13 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                     </div>
                 </div>
                 <div className="col-5 col-md-4">
-                    <button type="button" className="btn game-button" onClick={newGameButtonHit}>
+                    <button
+                        type="button"
+                        className="btn game-button"
+                        onClick={newGameButtonHit}
+                        style={{ animation: board.gameIsOver() ? 'boxShadowGlow 1000ms ease-in-out infinite' : 'none' }}
+                    >
                         <RefreshCw size={featherIconSize} className="feather-icon" />
-                        Restart
                     </button>
                 </div>
             </div>
@@ -101,7 +119,7 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                             >
                                 <div
                                     className="col-1 pe-0 mx-0 moves-ellipsis"
-                                    style={{ color: movesTextHasOverflown ? 'unset' : 'transparent', fontSize: '20px' }}
+                                    style={{ color: movesTextHasOverflown ? 'white' : 'transparent', fontSize: '20px' }}
                                 >
                                     ...
                                 </div>
@@ -124,13 +142,12 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
             <div className="row g-0 justify-content-between align-items-center mb-1">
                 <div className="col-5 col-md-4">
                     <button
-                        disabled={aiIsPlaying}
+                        disabled={aiIsPlaying || board.gameIsOver()}
                         type="button"
                         className="btn button-secondary game-button"
                         onClick={() => onAiButtonHit(AiAction.PLAY_ONE_STEP)}
                     >
                         <SkipForward size={featherIconSize} className="feather-icon" />
-                        Play once
                     </button>
                 </div>
                 <div className="col-5 col-md-4">{mainActionButton()}</div>

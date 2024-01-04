@@ -1,3 +1,5 @@
+import { Point } from '../constants/Point'
+
 export type Grid = number[][]
 
 type BoardConfiguration = {
@@ -27,7 +29,19 @@ export class Board {
         return new Board({ grid: this._grid.map((row) => row.slice()), score: this._score })
     }
 
-    public addRandomTile(): boolean {
+    public getGreatesPieceValue(): number {
+        let value = 0
+        for (let i = 0; i < Board.SIZE; i++) {
+            for (let j = 0; j < Board.SIZE; j++) {
+                if (this.grid[i][j] > value) {
+                    value = this.grid[i][j]
+                }
+            }
+        }
+        return value
+    }
+
+    public addRandomTile(): Point | undefined {
         const emptyCells: [number, number][] = []
         for (let i = 0; i < Board.SIZE; i++) {
             for (let j = 0; j < Board.SIZE; j++) {
@@ -41,9 +55,8 @@ export class Board {
             const randomIndex = Math.floor(Math.random() * emptyCells.length)
             const [row, col] = emptyCells[randomIndex]
             this.grid[row][col] = Math.random() < Board.NEW_CELL_VALUE_TWO_PROBABILITY ? 2 : 4
-            return true
+            return { x: col, y: row }
         }
-        return false
     }
 
     public print(): void {

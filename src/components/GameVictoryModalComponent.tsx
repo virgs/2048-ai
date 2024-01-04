@@ -1,0 +1,34 @@
+import { useEffect } from 'react'
+
+export function GameVictoryModalComponent({ show, dismiss }: { show: boolean; dismiss: () => void }) {
+    useEffect(() => {
+        if (show) {
+            //@ts-ignore
+            new bootstrap.Modal('#gameVictoryModal', { focus: true }).show()
+            document.getElementById('gameVictoryModal')?.addEventListener('hidden.bs.modal', () => {
+                console.log('dismiss')
+                dismiss()
+            })
+        }
+    }, [show])
+    if (!show) {
+        return <></>
+    }
+    return (
+        <div
+            className="modal fade"
+            id="gameVictoryModal"
+            tabIndex={-1}
+            aria-labelledby="gameVictoryModalLabel"
+            aria-hidden="true"
+        >
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                    <h1 className="modal-title fs-5" id="gameVictoryModalLabel">
+                        You win
+                    </h1>
+                </div>
+            </div>
+        </div>
+    )
+}

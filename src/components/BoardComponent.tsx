@@ -37,6 +37,7 @@ export function BoardComponent({
             onPointerUp={(e) => onPointerUp({ x: e.screenX, y: e.screenY })}
         >
             <GridComponent translations={translations} grid={board.grid}></GridComponent>
+            <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }}></div>
         </div>
     )
 }

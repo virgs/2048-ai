@@ -10,6 +10,7 @@ export type Translation = {
 type MoveResult = {
     board: Board
     translations: Translation[]
+    created?: Point
 }
 
 export class BoardMover {
@@ -122,10 +123,11 @@ export class BoardMover {
             }
         }
         const board = new Board({ grid: newBoard, score: this.board.score + score })
-        board.addRandomTile()
+        const created = board.addRandomTile()
         return {
             board: board,
             translations: changes,
+            created: created,
         }
     }
 
@@ -173,10 +175,11 @@ export class BoardMover {
             }
         }
         const board = new Board({ grid: newBoard, score: this.board.score + score })
-        board.addRandomTile()
+        const created = board.addRandomTile()
         return {
             board: board,
             translations: changes,
+            created: created,
         }
     }
 
@@ -225,10 +228,11 @@ export class BoardMover {
         }
 
         const board = new Board({ grid: newBoard, score: this.board.score + score })
-        board.addRandomTile()
+        const created = board.addRandomTile()
         return {
             board: board,
             translations: changes,
+            created: created,
         }
     }
 
@@ -276,10 +280,11 @@ export class BoardMover {
             }
         }
         const board = new Board({ grid: newBoard, score: this.board.score + score })
-        board.addRandomTile()
+        const created = board.addRandomTile()
         return {
             board: board,
             translations: changes,
+            created: created,
         }
     }
 }

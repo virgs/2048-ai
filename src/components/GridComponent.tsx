@@ -17,15 +17,17 @@ const translate = (translation: Translation, animationDuration: number): void =>
         clone.style.zIndex = '2'
         clone.style.position = 'absolute'
         clone.style.width = tile.offsetWidth + 'px'
+        clone.style.height = tile.offsetHeight + 'px'
 
         const parentNode = tile.parentNode
         if (parentNode) {
             parentNode.appendChild(clone)
             const parentElementWidth = tile.parentElement!.offsetWidth
+            const parentElementHeight = tile.parentElement!.offsetHeight
 
             setTimeout(() => {
                 const translate = `translate(${horizontalDiff * parentElementWidth}px, ${
-                    verticalDiff * parentElementWidth
+                    verticalDiff * parentElementHeight
                 }px)`
                 clone.style.transform = translate
                 setTimeout(() => tile.parentNode?.removeChild(clone), animationDuration)

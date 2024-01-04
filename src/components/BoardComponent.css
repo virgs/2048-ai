@@ -4,4 +4,5 @@
     background-color: var(--grid-background-color);
     border-radius: var(--border-radius);
     touch-action: none;
+    position: relative;
 }

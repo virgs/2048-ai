@@ -69,6 +69,7 @@
 }
 
 .moves-ellipsis {
+    font-weight: lighter;
     transition: all 200ms ease;
 }
 
@@ -81,4 +82,24 @@
     letter-spacing: 3px;
     float: right;
     color: white;
+}
+
+@keyframes boxShadowGlow {
+    0% {
+        /* opacity: .8; */
+        /* transform: scale(0.85); */
+        box-shadow: 0 0 10px 0 rgb(81, 228, 61);
+    }
+
+    50% {
+        /* opacity: 1; */
+        box-shadow: 0 0 10px 5px rgb(81, 228, 61);
+        /* transform: scale(1); */
+    }
+
+    100% {
+        /* opacity: 1; */
+        box-shadow: 0 0 10px 0 rgb(81, 228, 61);
+        /* transform: scale(1); */
+    }
 }
