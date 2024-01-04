@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './Heading.css'
 import { Direction } from './engine/Direction'
 import { AiAction } from './constants/AiAction'
-import { FastForward, SkipForward, X, RefreshCw } from 'react-feather'
+import { Play, SkipForward, X, RefreshCw } from 'react-feather'
 
 type HeadingProps = {
     score: number
@@ -57,7 +57,8 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
         } else {
             return (
                 <button type="button" className="btn game-button" onClick={() => onAiButtonHit(AiAction.KEEP_PLAYING)}>
-                    <FastForward size={featherIconSize} className="feather-icon" /> Play
+                    <Play size={featherIconSize} className="feather-icon" />
+                    Play
                 </button>
             )
         }

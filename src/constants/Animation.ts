@@ -8,7 +8,8 @@ const readFromCss = () =>
 const timeInterval = setInterval(() => {
     if (animationDuration === 0) {
         animationDuration = readFromCss()
-    } else if (animationDuration < 1) {
+    } else if (animationDuration < 10) {
+        // for some reason it reads a thousandth of the original value on a mobile device
         animationDuration *= 1000
     } else {
         clearInterval(timeInterval)

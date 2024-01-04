@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import Heading from './Heading'
 import { MonteCarlo } from './ai/MonteCarlo'
@@ -13,13 +13,18 @@ import { Direction } from './engine/Direction'
 const monteCarloRuns = 1000
 
 function App() {
-    const [anim, setAnim] = useState<number>(animationDuration)
+    const focusRef = useRef(null)
     const [lastAiAction, setLastAiAction] = useState<AiAction>(AiAction.STOP_PLAYING)
     const [board, setBoard] = useState<Board>(new Board())
     const [moves, setMoves] = useState<Direction[]>([])
     const [translations, setTranslations] = useState<Translation[]>([])
 
     let timer: number | undefined
+
+    useEffect(() => {
+        //@ts-ignore
+        focusRef.current?.focus()
+    })
 
     const makeMove = (board: Board, direction?: Direction): Board => {
         if (direction !== undefined) {
@@ -37,7 +42,7 @@ function App() {
 
     function handleKeyPress(keyCode: string) {
         let direction = keyCodeToDirection(keyCode)
-        if (direction !== undefined) {
+        if (direction !== undefined && lastAiAction === AiAction.STOP_PLAYING) {
             setBoard(makeMove(board, direction))
         }
     }
@@ -49,7 +54,6 @@ function App() {
     }
 
     useEffect(() => {
-        setAnim(animationDuration)
         if (lastAiAction === AiAction.STOP_PLAYING || lastAiAction === AiAction.PLAY_ONE_STEP) {
             setLastAiAction(AiAction.STOP_PLAYING)
         } else if (lastAiAction === AiAction.KEEP_PLAYING) {
@@ -87,11 +91,12 @@ function App() {
                 }
             }}
             onKeyUp={(event) => handleKeyPress(event.code)}
+            ref={focusRef}
             tabIndex={0}
         >
             <div className="row py-sm-3 p-lg-1 justify-content-center gx-0">
                 <div className="col-12 col-sm-6 col-md-12 mb-2 mx-auto">
-                    <div style={{ position: 'absolute', top: '0', left: 0, fontSize: '20px' }}>{anim}</div>
+                    {/* <div style={{ position: 'absolute', top: '0', left: 0, fontSize: '20px' }}>{anim}</div> */}
                     <Heading
                         aiIsPlaying={lastAiAction === AiAction.KEEP_PLAYING}
                         newGameButtonHit={resetGame}
@@ -104,7 +109,11 @@ function App() {
                     <BoardComponent
                         board={board}
                         translations={translations}
-                        onSlideTiles={(direction) => setBoard(makeMove(board, direction))}
+                        onSlideTiles={(direction) => {
+                            if (direction !== undefined && lastAiAction === AiAction.STOP_PLAYING) {
+                                return setBoard(makeMove(board, direction))
+                            }
+                        }}
                     ></BoardComponent>
                 </div>
             </div>
