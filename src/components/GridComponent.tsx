@@ -18,13 +18,19 @@ const translate = (translation: Translation, animationDuration: number): void =>
         clone.style.position = 'absolute'
         clone.style.width = tile.offsetWidth + 'px'
 
-        tile.parentNode?.appendChild(clone)
+        const parentNode = tile.parentNode
+        if (parentNode) {
+            parentNode.appendChild(clone)
+            const parentElementWidth = tile.parentElement!.offsetWidth
 
-        setTimeout(() => {
-            const translate = `translate(${horizontalDiff * 100}%, ${verticalDiff * 100}%)`
-            clone.style.transform = translate
-            setTimeout(() => tile.parentNode?.removeChild(clone), animationDuration)
-        }, 10)
+            setTimeout(() => {
+                const translate = `translate(${horizontalDiff * parentElementWidth}px, ${
+                    verticalDiff * parentElementWidth
+                }px)`
+                clone.style.transform = translate
+                setTimeout(() => tile.parentNode?.removeChild(clone), animationDuration)
+            }, 10)
+        }
     }
 }
 

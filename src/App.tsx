@@ -57,7 +57,7 @@ function App() {
         if (lastAiAction === AiAction.STOP_PLAYING || lastAiAction === AiAction.PLAY_ONE_STEP) {
             setLastAiAction(AiAction.STOP_PLAYING)
         } else if (lastAiAction === AiAction.KEEP_PLAYING) {
-            timer = setTimeout(monteCarloMove, 10 * animationDuration)
+            timer = setTimeout(monteCarloMove, 4 * animationDuration)
         }
     }, [board])
 
