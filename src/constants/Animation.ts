@@ -7,10 +7,10 @@ const readFromCss = () =>
 
 const timeInterval = setInterval(() => {
     if (animationDuration === 0) {
-        animationDuration = 200 //readFromCss()
+        animationDuration = readFromCss()
     } else {
         clearInterval(timeInterval)
     }
-}, 100)
+}, 50)
 
 export let animationDuration = readFromCss()

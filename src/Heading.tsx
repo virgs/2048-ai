@@ -55,7 +55,7 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
         } else {
             return (
                 <button type="button" className="btn game-button" onClick={() => onAiButtonHit(AiAction.KEEP_PLAYING)}>
-                    <FastForward size={20} className="feather-icon" /> Play forever
+                    <FastForward size={20} className="feather-icon" /> Play
                 </button>
             )
         }
@@ -127,7 +127,7 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                         onClick={() => onAiButtonHit(AiAction.PLAY_ONE_STEP)}
                     >
                         <SkipForward size={20} className="feather-icon" />
-                        One step
+                        Play once
                     </button>
                 </div>
                 <div className="col-5 col-sm-4">{mainActionButton()}</div>

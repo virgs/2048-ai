@@ -17,10 +17,13 @@ function App() {
     const [board, setBoard] = useState<Board>(new Board())
     const [moves, setMoves] = useState<Direction[]>([])
     const [translations, setTranslations] = useState<Translation[]>([])
+    const [width, setWidth] = useState<number>(0)
+
+    let timer: number | undefined
 
     const makeMove = (board: Board, direction?: Direction): Board => {
         if (direction !== undefined) {
-            console.log(Direction[direction], AiAction[lastAiAction])
+            console.log(Direction[direction], AiAction[lastAiAction], timer)
             const afterMove = new BoardMover(board).move(direction)
             setTranslations(afterMove.translations)
             setMoves((moves) => moves.concat(direction))
@@ -49,11 +52,13 @@ function App() {
         if (lastAiAction === AiAction.STOP_PLAYING || lastAiAction === AiAction.PLAY_ONE_STEP) {
             setLastAiAction(AiAction.STOP_PLAYING)
         } else if (lastAiAction === AiAction.KEEP_PLAYING) {
-            setTimeout(monteCarloMove, 5 * animationDuration)
+            timer = setTimeout(monteCarloMove, 5 * animationDuration)
         }
     }, [board])
 
     const onAiAction = async (aiAction: AiAction) => {
+        clearTimeout(timer)
+
         setLastAiAction(() => aiAction)
         if (aiAction !== AiAction.STOP_PLAYING) {
             monteCarloMove()
@@ -61,12 +66,17 @@ function App() {
     }
 
     const resetGame = () => {
+        clearTimeout(timer)
         console.log('reset')
         setLastAiAction(AiAction.STOP_PLAYING)
         setBoard(new Board())
         setMoves([])
         setTranslations([])
     }
+
+    useEffect(() => {
+        setWidth(document.getElementById('app')!.offsetWidth)
+    }, [lastAiAction])
 
     return (
         <div
@@ -86,6 +96,7 @@ function App() {
         >
             <div className="row p-md-3 p-lg-1 justify-content-center">
                 <div className="col-12 col-md-6 col-lg-12 mb-2 mx-auto">
+                    <div style={{ position: 'absolute', left: '0', top: '0', fontSize: '20px' }}>{width}</div>
                     <Heading
                         aiIsPlaying={lastAiAction === AiAction.KEEP_PLAYING}
                         newGameButtonHit={resetGame}

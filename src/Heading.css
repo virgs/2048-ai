@@ -39,7 +39,10 @@
     padding-top: 4px;
 }
 
-.game-button {
+.game-button,
+.game-button:focus,
+.game-button:focus-visible,
+.game-button:active {
     color: #eee4da;
     background-color: #8f7a66;
     border-radius: 3px;
@@ -47,22 +50,19 @@
     font-weight: bold;
 }
 
-.game-button:hover,
-.game-button:focus,
-.game-button:focus-visible,
-.game-button:active {
+.game-button:hover {
     background-color: #8f7a66;
     color: white;
 }
 
-.abort-button {
-    background-color: #dc3545;
-}
-
-.abort-button:hover,
+.abort-button,
 .abort-button:focus,
 .abort-button:focus-visible,
 .abort-button:active {
+    background-color: #dc3545;
+}
+
+.abort-button:hover {
     background-color: #54473b;
     color: white;
 }
