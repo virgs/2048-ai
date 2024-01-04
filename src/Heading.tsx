@@ -12,6 +12,8 @@ type HeadingProps = {
     newGameButtonHit: () => void
 }
 
+const featherIconSize = '.9rem'
+
 export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newGameButtonHit }: HeadingProps) {
     const [movesTextHasOverflown, setMovesTextHasOverflown] = useState<Boolean>(false)
     const mappedMoves = () =>
@@ -49,13 +51,13 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                     className="btn game-button abort-button"
                     onClick={() => onAiButtonHit(AiAction.STOP_PLAYING)}
                 >
-                    <X size={20} className="feather-icon" /> Abort
+                    <X size={featherIconSize} className="feather-icon" /> Abort
                 </button>
             )
         } else {
             return (
                 <button type="button" className="btn game-button" onClick={() => onAiButtonHit(AiAction.KEEP_PLAYING)}>
-                    <FastForward size={20} className="feather-icon" /> Play
+                    <FastForward size={featherIconSize} className="feather-icon" /> Play
                 </button>
             )
         }
@@ -67,7 +69,7 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                 <div className="col-6">
                     <h1 className="title">2048</h1>
                 </div>
-                <div className="col-5 col-sm-4">
+                <div className="col-5 col-md-4">
                     <div className="pannel">
                         <div className="pannel-title">score</div>
                         <div style={{ lineHeight: 'normal' }}>{score}</div>
@@ -80,10 +82,10 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                         Join the tiles, get to <strong>2048!</strong>
                     </div>
                 </div>
-                <div className="col-5 col-sm-4">
+                <div className="col-5 col-md-4">
                     <button type="button" className="btn game-button" onClick={newGameButtonHit}>
-                        <RefreshCw size={18} className="feather-icon" />
-                        New Game
+                        <RefreshCw size={featherIconSize} className="feather-icon" />
+                        Restart
                     </button>
                 </div>
             </div>
@@ -119,18 +121,18 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                 <div className="col ms-2" style={{ borderTop: '1.5px solid #bbada0', width: '100%' }}></div>
             </div>
             <div className="row g-0 justify-content-between align-items-center mb-1">
-                <div className="col-5 col-sm-4">
+                <div className="col-5 col-md-4">
                     <button
                         disabled={aiIsPlaying}
                         type="button"
                         className="btn button-secondary game-button"
                         onClick={() => onAiButtonHit(AiAction.PLAY_ONE_STEP)}
                     >
-                        <SkipForward size={20} className="feather-icon" />
+                        <SkipForward size={featherIconSize} className="feather-icon" />
                         Play once
                     </button>
                 </div>
-                <div className="col-5 col-sm-4">{mainActionButton()}</div>
+                <div className="col-5 col-md-4">{mainActionButton()}</div>
             </div>
         </div>
     )

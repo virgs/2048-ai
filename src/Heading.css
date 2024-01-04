@@ -43,6 +43,7 @@
 .game-button:focus,
 .game-button:focus-visible,
 .game-button:active {
+    font-size: 0.9rem;
     color: #eee4da;
     background-color: #8f7a66;
     border-radius: 3px;
@@ -63,7 +64,7 @@
 }
 
 .abort-button:hover {
-    background-color: #54473b;
+    background-color: #ee6f7c;
     color: white;
 }
 

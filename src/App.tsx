@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import Heading from './Heading'
-import { MonteCarlo } from './ai/MonteCarlo'
+// import { MonteCarlo } from './ai/MonteCarlo'
 import { BoardComponent } from './components/BoardComponent'
 import { AiAction } from './constants/AiAction'
 import { keyCodeToDirection } from './constants/KeyCodes'
 import { Board } from './engine/Board'
 import { BoardMover, Translation } from './engine/BoardMover'
-import { Direction } from './engine/Direction'
+import { Direction, Directions } from './engine/Direction'
 import { animationDuration } from './constants/Animation'
 
-const monteCarloRuns = 1000
+// const monteCarloRuns = 1000
 
 function App() {
     const [lastAiAction, setLastAiAction] = useState<AiAction>(AiAction.STOP_PLAYING)
     const [board, setBoard] = useState<Board>(new Board())
     const [moves, setMoves] = useState<Direction[]>([])
     const [translations, setTranslations] = useState<Translation[]>([])
-    const [width, setWidth] = useState<number>(0)
 
     let timer: number | undefined
 
@@ -43,8 +42,9 @@ function App() {
     }
 
     const monteCarloMove = () => {
-        const monteCarlo = new MonteCarlo(monteCarloRuns)
-        const direction = monteCarlo.findBestMove(board.clone())
+        // const monteCarlo = new MonteCarlo(monteCarloRuns)
+        // const direction = monteCarlo.findBestMove(board.clone())
+        const direction = Math.floor(Math.random() * Directions.length)
         setBoard(makeMove(board, direction))
     }
 
@@ -52,7 +52,7 @@ function App() {
         if (lastAiAction === AiAction.STOP_PLAYING || lastAiAction === AiAction.PLAY_ONE_STEP) {
             setLastAiAction(AiAction.STOP_PLAYING)
         } else if (lastAiAction === AiAction.KEEP_PLAYING) {
-            timer = setTimeout(monteCarloMove, 5 * animationDuration)
+            timer = setTimeout(monteCarloMove, 10 * animationDuration)
         }
     }, [board])
 
@@ -74,10 +74,6 @@ function App() {
         setTranslations([])
     }
 
-    useEffect(() => {
-        setWidth(document.getElementById('app')!.offsetWidth)
-    }, [lastAiAction])
-
     return (
         <div
             id="app"
@@ -94,9 +90,8 @@ function App() {
             }}
             tabIndex={0}
         >
-            <div className="row p-md-3 p-lg-1 justify-content-center">
-                <div className="col-12 col-md-6 col-lg-12 mb-2 mx-auto">
-                    <div style={{ position: 'absolute', left: '0', top: '0', fontSize: '20px' }}>{width}</div>
+            <div className="row py-sm-3 p-lg-1 justify-content-center gx-0">
+                <div className="col-12 col-sm-6 col-md-12 mb-2 mx-auto">
                     <Heading
                         aiIsPlaying={lastAiAction === AiAction.KEEP_PLAYING}
                         newGameButtonHit={resetGame}
@@ -105,7 +100,7 @@ function App() {
                         score={board.score}
                     ></Heading>
                 </div>
-                <div className="col-12 col-md-6 col-lg-12 mx-auto">
+                <div className="col-12 col-sm-6 col-md-12 mx-auto">
                     <BoardComponent
                         board={board}
                         translations={translations}
