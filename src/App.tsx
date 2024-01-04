@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import Heading from './Heading'
-// import { MonteCarlo } from './ai/MonteCarlo'
+import { MonteCarlo } from './ai/MonteCarlo'
 import { BoardComponent } from './components/BoardComponent'
 import { AiAction } from './constants/AiAction'
+import { animationDuration } from './constants/Animation'
 import { keyCodeToDirection } from './constants/KeyCodes'
 import { Board } from './engine/Board'
 import { BoardMover, Translation } from './engine/BoardMover'
-import { Direction, Directions } from './engine/Direction'
-import { animationDuration } from './constants/Animation'
+import { Direction } from './engine/Direction'
 
-// const monteCarloRuns = 1000
+const monteCarloRuns = 1000
 
 function App() {
+    const [anim, setAnim] = useState<number>(animationDuration)
     const [lastAiAction, setLastAiAction] = useState<AiAction>(AiAction.STOP_PLAYING)
     const [board, setBoard] = useState<Board>(new Board())
     const [moves, setMoves] = useState<Direction[]>([])
@@ -22,7 +23,7 @@ function App() {
 
     const makeMove = (board: Board, direction?: Direction): Board => {
         if (direction !== undefined) {
-            console.log(Direction[direction], AiAction[lastAiAction], timer)
+            console.log(Direction[direction], AiAction[lastAiAction], animationDuration)
             const afterMove = new BoardMover(board).move(direction)
             setTranslations(afterMove.translations)
             setMoves((moves) => moves.concat(direction))
@@ -42,13 +43,13 @@ function App() {
     }
 
     const monteCarloMove = () => {
-        // const monteCarlo = new MonteCarlo(monteCarloRuns)
-        // const direction = monteCarlo.findBestMove(board.clone())
-        const direction = Math.floor(Math.random() * Directions.length)
+        const monteCarlo = new MonteCarlo(monteCarloRuns)
+        const direction = monteCarlo.findBestMove(board.clone())
         setBoard(makeMove(board, direction))
     }
 
     useEffect(() => {
+        setAnim(animationDuration)
         if (lastAiAction === AiAction.STOP_PLAYING || lastAiAction === AiAction.PLAY_ONE_STEP) {
             setLastAiAction(AiAction.STOP_PLAYING)
         } else if (lastAiAction === AiAction.KEEP_PLAYING) {
@@ -85,13 +86,12 @@ function App() {
                     return event.preventDefault()
                 }
             }}
-            onKeyUp={(event) => {
-                return handleKeyPress(event.code)
-            }}
+            onKeyUp={(event) => handleKeyPress(event.code)}
             tabIndex={0}
         >
             <div className="row py-sm-3 p-lg-1 justify-content-center gx-0">
                 <div className="col-12 col-sm-6 col-md-12 mb-2 mx-auto">
+                    <div style={{ position: 'absolute', top: '0', left: 0, fontSize: '20px' }}>{anim}</div>
                     <Heading
                         aiIsPlaying={lastAiAction === AiAction.KEEP_PLAYING}
                         newGameButtonHit={resetGame}
