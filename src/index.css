@@ -19,6 +19,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.feather-icon {
+    vertical-align: text-top;
+    margin: 0 5px;
+}
+
 a {
     font-weight: 500;
     color: #646cff;

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './Heading.css'
 import { Direction } from './engine/Direction'
 import { AiAction } from './constants/AiAction'
+import { FastForward, SkipForward, X, RefreshCw } from 'react-feather'
 
 type HeadingProps = {
     score: number
@@ -48,13 +49,13 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                     className="btn game-button abort-button"
                     onClick={() => onAiButtonHit(AiAction.STOP_PLAYING)}
                 >
-                    {'Abort'}
+                    <X size={20} className="feather-icon" /> Abort
                 </button>
             )
         } else {
             return (
                 <button type="button" className="btn game-button" onClick={() => onAiButtonHit(AiAction.KEEP_PLAYING)}>
-                    {'Play forever'}
+                    <FastForward size={20} className="feather-icon" /> Play forever
                 </button>
             )
         }
@@ -81,6 +82,7 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                 </div>
                 <div className="col-5 col-sm-4">
                     <button type="button" className="btn game-button" onClick={newGameButtonHit}>
+                        <RefreshCw size={18} className="feather-icon" />
                         New Game
                     </button>
                 </div>
@@ -124,6 +126,7 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
                         className="btn button-secondary game-button"
                         onClick={() => onAiButtonHit(AiAction.PLAY_ONE_STEP)}
                     >
+                        <SkipForward size={20} className="feather-icon" />
                         One step
                     </button>
                 </div>
