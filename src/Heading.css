@@ -55,6 +55,18 @@
     color: white;
 }
 
+.abort-button {
+    background-color: #dc3545;
+}
+
+.abort-button:hover,
+.abort-button:focus,
+.abort-button:focus-visible,
+.abort-button:active {
+    background-color: #54473b;
+    color: white;
+}
+
 .moves-ellipsis {
     transition: all 200ms ease;
 }

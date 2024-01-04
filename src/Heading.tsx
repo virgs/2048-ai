@@ -43,7 +43,11 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
     const mainActionButton = () => {
         if (aiIsPlaying) {
             return (
-                <button type="button" className="btn game-button" onClick={() => onAiButtonHit(AiAction.STOP_PLAYING)}>
+                <button
+                    type="button"
+                    className="btn game-button abort-button"
+                    onClick={() => onAiButtonHit(AiAction.STOP_PLAYING)}
+                >
                     {'Abort'}
                 </button>
             )

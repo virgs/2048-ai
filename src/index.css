@@ -1,6 +1,6 @@
 :root {
     user-select: none;
-    touch-action: pan-y;
+    touch-action: none;
     line-height: 1.5;
     font-weight: 400;
     --font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
