@@ -5,7 +5,9 @@ export function GameVictoryModalComponent({ show, dismiss }: { show: boolean; di
         if (show) {
             //@ts-ignore
             new bootstrap.Modal('#gameVictoryModal', { focus: true }).show()
-            document.getElementById('gameVictoryModal')?.addEventListener('hidden.bs.modal', () => {
+
+            const modalElement = document.getElementById('gameVictoryModal');
+            modalElement?.addEventListener('hidden.bs.modal', () => {
                 console.log('dismiss')
                 dismiss()
             })
@@ -24,7 +26,7 @@ export function GameVictoryModalComponent({ show, dismiss }: { show: boolean; di
         >
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                    <h1 className="modal-title fs-5" id="gameVictoryModalLabel">
+                    <h1 className="modal-title" id="gameVictoryModalLabel" style={{ color: 'lightgreen' }}>
                         You win
                     </h1>
                 </div>

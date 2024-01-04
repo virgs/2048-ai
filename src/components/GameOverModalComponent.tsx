@@ -5,7 +5,9 @@ export function GameOverModalComponent({ show, dismiss }: { show: boolean; dismi
         if (show) {
             //@ts-ignore
             new bootstrap.Modal('#gameOverModal', { focus: true }).show()
-            document.getElementById('gameOverModal')?.addEventListener('hidden.bs.modal', () => {
+
+            const modalElement = document.getElementById('gameOverModal');
+            modalElement?.addEventListener('hidden.bs.modal', () => {
                 dismiss()
             })
         }
@@ -23,8 +25,8 @@ export function GameOverModalComponent({ show, dismiss }: { show: boolean; dismi
         >
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                    <h1 className="modal-title fs-5" id="gameOverModalLabel">
-                        You lost
+                    <h1 className="modal-title" id="gameOverModalLabel" style={{ color: 'lightpink' }}>
+                        Game over
                     </h1>
                 </div>
             </div>

@@ -115,7 +115,7 @@ function App() {
       ref={appRef}
       tabIndex={0}
     >
-      <div className="row py-sm-3 p-lg-1 justify-content-center gx-0">
+      <div className="row py-xl-2 p-lg-1 justify-content-center gx-0">
         <div className="col-12 col-sm-6 col-md-12 mb-2 mx-auto">
           <HeadingComponent
             board={board}

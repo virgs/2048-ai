@@ -1,4 +1,4 @@
-import { Board, Grid } from "../engine/Board"
+import { Board } from "../engine/Board"
 import { Direction } from "../engine/Direction"
 import { MonteCarlo } from "./MonteCarlo"
 
