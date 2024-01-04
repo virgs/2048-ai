@@ -21,13 +21,13 @@ export default function Heading({ score, moves, aiIsPlaying, onAiButtonHit, newG
             .map((move) => {
                 switch (move) {
                     case Direction.Up:
-                        return '⬆'
+                        return '↑'
                     case Direction.Down:
-                        return '⬇'
+                        return '↓'
                     case Direction.Left:
-                        return '⬅'
+                        return '←'
                     case Direction.Right:
-                        return '➡'
+                        return '→'
                 }
             })
             .join('')

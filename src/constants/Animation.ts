@@ -9,7 +9,7 @@ const timeInterval = setInterval(() => {
     if (animationDuration === 0) {
         animationDuration = readFromCss()
     } else if (animationDuration < 1) {
-        animationDuration *= 100
+        animationDuration *= 1000
     } else {
         clearInterval(timeInterval)
     }
