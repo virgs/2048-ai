@@ -10,7 +10,10 @@ export type ApproximateDirectionOptions = {
     degreesTolerance: number
 }
 
-export const pointsAreEqual = (a: Point, b: Point): boolean => {
+export const pointsAreEqual = (a?: Point, b?: Point): boolean => {
+    if (a === undefined || b === undefined) {
+        return false
+    }
     return a.x === b.x && a.y === b.y
 }
 

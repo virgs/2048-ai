@@ -7,7 +7,7 @@ export type Translation = {
     to: Point
 }
 
-type MoveResult = {
+export type MoveResult = {
     board: Board
     translations: Translation[]
     created?: Point
@@ -103,12 +103,10 @@ export class BoardMover {
                         tiles[i] = 0
                         mergedTiles.push(currentTile)
                     }
-                    if (i !== mergedTiles.length - 1) {
-                        changes.push({
-                            from: { y: i, x: col },
-                            to: { y: mergedTiles.length - 1, x: col },
-                        })
-                    }
+                    changes.push({
+                        from: { y: i, x: col },
+                        to: { y: mergedTiles.length - 1, x: col },
+                    })
                 }
             }
 
@@ -155,12 +153,10 @@ export class BoardMover {
                         tiles[i] = 0
                         mergedTiles.push(currentTile)
                     }
-                    if (i !== Board.SIZE - 1 - (mergedTiles.length - 1)) {
-                        changes.push({
-                            from: { y: i, x: col },
-                            to: { y: Board.SIZE - 1 - (mergedTiles.length - 1), x: col },
-                        })
-                    }
+                    changes.push({
+                        from: { y: i, x: col },
+                        to: { y: Board.SIZE - 1 - (mergedTiles.length - 1), x: col },
+                    })
                 }
             }
 
@@ -173,6 +169,7 @@ export class BoardMover {
             for (let i = Board.SIZE - 1 - mergedTiles.length; i >= 0; i--) {
                 newBoard[i][col] = 0
             }
+
         }
         const board = new Board({ grid: newBoard, score: this.board.score + score })
         const created = board.addRandomTile()
@@ -207,12 +204,10 @@ export class BoardMover {
                         tiles[i] = 0
                         mergedTiles.push(currentTile)
                     }
-                    if (i !== mergedTiles.length - 1) {
-                        changes.push({
-                            from: { y: row, x: i },
-                            to: { y: row, x: mergedTiles.length - 1 },
-                        })
-                    }
+                    changes.push({
+                        from: { y: row, x: i },
+                        to: { y: row, x: mergedTiles.length - 1 },
+                    })
                 }
             }
 
@@ -260,12 +255,10 @@ export class BoardMover {
                         tiles[i] = 0
                         mergedTiles.push(currentTile)
                     }
-                    if (i !== Board.SIZE - 1 - (mergedTiles.length - 1)) {
-                        changes.push({
-                            from: { y: row, x: i },
-                            to: { y: row, x: Board.SIZE - 1 - (mergedTiles.length - 1) },
-                        })
-                    }
+                    changes.push({
+                        from: { y: row, x: i },
+                        to: { y: row, x: Board.SIZE - 1 - (mergedTiles.length - 1) },
+                    })
                 }
             }
 

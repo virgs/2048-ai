@@ -1,0 +1,22 @@
+.score-increase {
+    color: grey;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    right: 0%;
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: var(--font-family);
+    animation: moveUpAndFadeOut 2000ms;
+}
+
+@keyframes moveUpAndFadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}

@@ -9,23 +9,37 @@
     font-family: var(--font-family);
     border-radius: var(--border-radius);
 
-    -webkit-transition: transform var(--animation-duration);
-    -webkit-transition: -webkit-transform var(--animation-duration);
     transition: transform ease-in-out var(--animation-duration);
 }
 
 .fadeInScale {
-    animation: fadeInScale var(--animation-duration) ease-in;
+    animation: fadeInScale var(--animation-duration) ease-in-out;
+}
+
+.merge {
+    animation: merge var(--animation-duration) ease-in-out;
 }
 
 @keyframes fadeInScale {
     0% {
-        /* opacity: .8; */
-        transform: scale(0.85);
+        transform: scale(0.75);
     }
 
     100% {
-        /* opacity: 1; */
+        transform: scale(1);
+    }
+}
+
+@keyframes merge {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
         transform: scale(1);
     }
 }

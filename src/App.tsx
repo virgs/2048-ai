@@ -6,7 +6,7 @@ import { AiAction } from './constants/AiAction'
 import { animationDuration } from './constants/Animation'
 import { keyCodeToDirection } from './constants/KeyCodes'
 import { Board } from './engine/Board'
-import { BoardMover, Translation } from './engine/BoardMover'
+import { BoardMover, MoveResult, Translation } from './engine/BoardMover'
 import { Direction } from './engine/Direction'
 import { GameOverModalComponent } from './components/GameOverModalComponent'
 import { GameVictoryModalComponent } from './components/GameVictoryModalComponent'
@@ -24,7 +24,7 @@ function App() {
   const [gameVictoryModalIsBeingShown, setGameVictoryModalIsBeingShown] = useState<boolean>(false)
   const [board, setBoard] = useState<Board>(new Board())
   const [moves, setMoves] = useState<Direction[]>([])
-  const [translations, setTranslations] = useState<Translation[]>([])
+  const [lastMoveResult, setLastMoveResult] = useState<MoveResult>()
 
   let timer: number | undefined
 
@@ -38,7 +38,7 @@ function App() {
       const boardMover = new BoardMover(board)
       if (boardMover.canMove(direction)) {
         const afterMove = boardMover.move(direction)
-        setTranslations(afterMove.translations)
+        setLastMoveResult(afterMove)
         setMoves((moves) => moves.concat(direction))
         if (afterMove.board.gameIsOver()) {
           setGameOverModalIsBeingShown(() => true)
@@ -73,7 +73,7 @@ function App() {
     if (aiAction === AiAction.STOP_PLAYING || aiAction === AiAction.PLAY_ONE_STEP) {
       setAiAction(AiAction.STOP_PLAYING)
     } else if (aiAction === AiAction.KEEP_PLAYING) {
-      timer = setTimeout(runAiMove, 3 * animationDuration)
+      timer = setTimeout(runAiMove, 2 * animationDuration)
     }
   }, [board])
 
@@ -95,7 +95,7 @@ function App() {
     setAiAction(AiAction.STOP_PLAYING)
     setBoard(new Board())
     setMoves([])
-    setTranslations([])
+    setLastMoveResult(undefined)
   }
 
   return (
@@ -127,7 +127,7 @@ function App() {
         <div className="col-12 col-sm-6 col-md-12 mx-auto">
           <BoardComponent
             board={board}
-            translations={translations}
+            lastMoveResult={lastMoveResult}
             onSlideTiles={(direction) => {
               if (direction !== undefined && aiAction === AiAction.STOP_PLAYING) {
                 return setBoard(makeMove(board, direction))

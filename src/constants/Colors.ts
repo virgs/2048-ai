@@ -1,7 +1,7 @@
 export const colorsFromNumber = (input: number): { backgroundColor: string; color: string } => {
     switch (input) {
         case 0:
-            return { backgroundColor: '#cdc1b4', color: '#776e65' }
+            return { backgroundColor: '#cdc1b4', color: 'transparent' }
         case 2:
             return { backgroundColor: '#eee4da', color: '#776e65' }
         case 4:

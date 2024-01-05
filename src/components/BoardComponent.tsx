@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { Point, vectorApproximateDirection } from '../constants/Point'
 import { Board } from '../engine/Board'
-import { Translation } from '../engine/BoardMover'
+import { MoveResult } from '../engine/BoardMover'
 import { Direction } from '../engine/Direction'
 import './BoardComponent.css'
 import { GridComponent } from './GridComponent'
 
 export function BoardComponent({
     board,
-    translations,
+    lastMoveResult,
     onSlideTiles,
 }: {
     board: Board
-    translations: Translation[]
+    lastMoveResult?: MoveResult
     onSlideTiles: (direction: Direction) => void
 }) {
     const [pointerDownCoordinates, setPointerDownCoordinates] = useState<Point>({ x: 0, y: 0 })
@@ -36,8 +36,7 @@ export function BoardComponent({
             onPointerDown={(event) => setPointerDownCoordinates({ x: event.screenX, y: event.screenY })}
             onPointerUp={(e) => onPointerUp({ x: e.screenX, y: e.screenY })}
         >
-            <GridComponent translations={translations} grid={board.grid}></GridComponent>
-            <div style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }}></div>
+            <GridComponent lastMoveResult={lastMoveResult} grid={board.grid}></GridComponent>
         </div>
     )
 }

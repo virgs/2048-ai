@@ -4,6 +4,7 @@ import { Direction } from '../engine/Direction'
 import { AiAction } from '../constants/AiAction'
 import { Play, SkipForward, X, RefreshCw } from 'react-feather'
 import { Board } from '../engine/Board'
+import { ScoreComponent } from './ScoreComponent'
 
 type HeadingProps = {
     board: Board
@@ -87,7 +88,7 @@ export default function HeadingComponent({
                 <div className="col-5 col-md-4">
                     <div className="pannel">
                         <div className="pannel-title">score</div>
-                        <div style={{ lineHeight: 'normal' }}>{score}</div>
+                        <ScoreComponent score={score}></ScoreComponent>
                     </div>
                 </div>
             </div>
