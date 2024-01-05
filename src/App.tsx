@@ -13,7 +13,7 @@ import { GameVictoryModalComponent } from './components/GameVictoryModalComponen
 import { Solver } from './ai/Solver'
 
 const monteCarloRuns = 1000
-const greatestPieceValueThreshold = 64
+const greatestPieceValueThreshold = 2048
 const solver = new Solver(monteCarloRuns)
 
 function App() {
@@ -41,10 +41,8 @@ function App() {
         setTranslations(afterMove.translations)
         setMoves((moves) => moves.concat(direction))
         if (afterMove.board.gameIsOver()) {
-          setGameOverModalIsBeingShown(true)
-          console.log('game over')
+          setGameOverModalIsBeingShown(() => true)
         } else if (afterMove.board.getGreatesPieceValue() >= greatestPieceValueThreshold && !victory) {
-          console.log('you win')
           setGameVictoryModalIsBeingShown(() => true)
           setVictory(() => true)
         }
