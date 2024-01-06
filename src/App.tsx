@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
-import HeadingComponent from './components/HeadingComponent'
+import { NextMoveAiWorker } from './ai/NextMoveAiWorker'
 import { BoardComponent } from './components/BoardComponent'
+import { GameOverModalComponent } from './components/GameOverModalComponent'
+import { GameVictoryModalComponent } from './components/GameVictoryModalComponent'
+import HeadingComponent from './components/HeadingComponent'
 import { AiAction } from './constants/AiAction'
 import { animationDuration } from './constants/Animation'
 import { keyCodeToDirection } from './constants/KeyCodes'
 import { Board } from './engine/Board'
-import { BoardMover, MoveResult, Translation } from './engine/BoardMover'
+import { BoardMover, MoveResult } from './engine/BoardMover'
 import { Direction } from './engine/Direction'
-import { GameOverModalComponent } from './components/GameOverModalComponent'
-import { GameVictoryModalComponent } from './components/GameVictoryModalComponent'
-import { Solver } from './ai/Solver'
+import { ReportGenerator } from './ai/ReportGenerator'
 
 const monteCarloRuns = 1000
 const greatestPieceValueThreshold = 2048
-const solver = new Solver(monteCarloRuns)
+const nextMoveAiWorker = new NextMoveAiWorker(monteCarloRuns)
+
+// await new ReportGenerator(100, 10, 200).run()
 
 function App() {
   const appRef = useRef(null)
@@ -65,7 +68,7 @@ function App() {
   }
 
   const runAiMove = async () => {
-    const direction: Direction | undefined = await solver.run(board.clone())
+    const direction: Direction | undefined = await nextMoveAiWorker.run(board.clone())
     setBoard(makeMove(board, direction))
   }
 

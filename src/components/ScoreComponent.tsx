@@ -16,6 +16,9 @@ function ScoreIncreased({ increase, onDismiss, id }: { id: number, increase: num
 export function ScoreComponent(props: { score: number }) {
     const [score, setScore] = useState<number>(0)
     const [increaseEffectList, setIncreaseEffectList] = useState<{ id: number, value: number }[]>([])
+    const formatter = Intl.NumberFormat("en");
+
+
 
     const removeEffect = (id: number) => {
         setIncreaseEffectList(list => list
@@ -36,11 +39,11 @@ export function ScoreComponent(props: { score: number }) {
 
 
     return <>
-        <div style={{ lineHeight: 'normal', position: 'relative' }}>
+        <div style={{ lineHeight: 'normal', position: 'relative', fontSize: '20px' }}>
             {increaseEffectList
                 .map((effect) => <ScoreIncreased key={effect.id} id={effect.id} increase={effect.value} onDismiss={removeEffect}>
                 </ScoreIncreased>)}
-            {props.score}
+            {formatter.format(props.score)}
         </div>
     </>
 }

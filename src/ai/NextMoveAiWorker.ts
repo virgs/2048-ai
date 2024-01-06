@@ -7,7 +7,7 @@ type UndefinedDirection = Direction | undefined
 
 type PromiseResult = (value: UndefinedDirection | PromiseLike<UndefinedDirection>) => void
 
-export class Solver {
+export class NextMoveAiWorker {
     private readonly runs: number
     private readonly worker: Worker
     private readyPromiseResolve: Promise<void>
