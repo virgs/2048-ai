@@ -69,7 +69,8 @@ export class ReportGenerator {
                     const singleItemReport = await this.playSingleGame()
                     --remainingRuns
                     console.log(
-                        `Report status ${this.monteCarloExplorationRuns}: ${Math.trunc((1000 * (this.runs - remainingRuns)) / this.runs) / 10
+                        `Report status ${this.monteCarloExplorationRuns}: ${
+                            Math.trunc((1000 * (this.runs - remainingRuns)) / this.runs) / 10
                         }% - ${formatDuration(Date.now() - startTime)}`
                     )
                     return singleItemReport
@@ -129,7 +130,7 @@ export class ReportGenerator {
                 singleGameReports.length,
             numberOfGames: singleGameReports.length,
             score: calculateStat(singleGameReports.map((item) => item.score)),
-            greatesTileValue: calculateStat(singleGameReports.map((item) => item.greatesTile)),
+            greatestTileValue: calculateStat(singleGameReports.map((item) => item.greatesTile)),
             moves: calculateStat(singleGameReports.map((item) => item.moves)),
             monteCarloRunsPerMove: this.monteCarloExplorationRuns,
             games: singleGameReports,
