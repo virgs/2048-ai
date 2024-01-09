@@ -6,7 +6,7 @@ export function GameVictoryModalComponent({ show, dismiss }: { show: boolean; di
             //@ts-ignore
             new bootstrap.Modal('#gameVictoryModal', { focus: true }).show()
 
-            const modalElement = document.getElementById('gameVictoryModal');
+            const modalElement = document.getElementById('gameVictoryModal')
             modalElement?.addEventListener('hidden.bs.modal', () => {
                 console.log('dismiss')
                 dismiss()

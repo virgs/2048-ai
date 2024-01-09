@@ -1,0 +1,541 @@
+{
+    "totalTime": "59 minutes, 21 seconds, 619 milliseconds",
+    "winRatio": 0.83,
+    "numberOfGames": 100,
+    "score": {
+        "max": 71436,
+        "mean": 34911.96,
+        "p1": 69896,
+        "p5": 60624,
+        "p25": 36264,
+        "p50": 34532,
+        "p75": 26928,
+        "p95": 16036,
+        "p99": 6976
+    },
+    "greatesTileValue": {
+        "max": 4096,
+        "mean": 2273.28,
+        "p1": 4096,
+        "p5": 4096,
+        "p25": 2048,
+        "p50": 2048,
+        "p75": 2048,
+        "p95": 1024,
+        "p99": 512
+    },
+    "moves": {
+        "max": 3258,
+        "mean": 1751.38,
+        "p1": 3188,
+        "p5": 2836,
+        "p25": 1887,
+        "p50": 1764,
+        "p75": 1387,
+        "p95": 932,
+        "p99": 467
+    },
+    "monteCarloRunsPerMove": 250,
+    "games": [
+        {
+            "moves": 2836,
+            "score": 60716,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1868,
+            "score": 36148,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 956,
+            "score": 16196,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1859,
+            "score": 35964,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1640,
+            "score": 32224,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 3188,
+            "score": 69896,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1290,
+            "score": 25332,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2821,
+            "score": 60624,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1672,
+            "score": 33368,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1882,
+            "score": 36300,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1159,
+            "score": 22884,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1419,
+            "score": 27232,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1885,
+            "score": 36216,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1525,
+            "score": 30488,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1157,
+            "score": 23120,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2730,
+            "score": 59580,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1675,
+            "score": 32596,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1413,
+            "score": 27156,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1799,
+            "score": 35372,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1284,
+            "score": 25352,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1412,
+            "score": 27220,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1401,
+            "score": 27100,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1173,
+            "score": 23116,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1356,
+            "score": 26412,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 731,
+            "score": 12224,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 932,
+            "score": 16060,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1403,
+            "score": 27152,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 928,
+            "score": 15996,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1417,
+            "score": 27208,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1875,
+            "score": 36244,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 953,
+            "score": 16152,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1416,
+            "score": 27296,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2775,
+            "score": 60104,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1888,
+            "score": 36244,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1390,
+            "score": 26928,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1419,
+            "score": 27228,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2809,
+            "score": 60568,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 945,
+            "score": 16176,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1413,
+            "score": 27256,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1658,
+            "score": 32248,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 969,
+            "score": 16376,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 2813,
+            "score": 60352,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 478,
+            "score": 7052,
+            "greatesTile": 512
+        },
+        {
+            "moves": 1411,
+            "score": 27188,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1840,
+            "score": 35948,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 936,
+            "score": 16036,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1894,
+            "score": 36188,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1880,
+            "score": 36276,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1868,
+            "score": 36180,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2781,
+            "score": 60300,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 2116,
+            "score": 47364,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1871,
+            "score": 36240,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1764,
+            "score": 34532,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2837,
+            "score": 60588,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1814,
+            "score": 35456,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1664,
+            "score": 32280,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1863,
+            "score": 36192,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2823,
+            "score": 60588,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1842,
+            "score": 35592,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1387,
+            "score": 27052,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2347,
+            "score": 51388,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1866,
+            "score": 36188,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1877,
+            "score": 36264,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1641,
+            "score": 32164,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1839,
+            "score": 35784,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1653,
+            "score": 32144,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2577,
+            "score": 56488,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1876,
+            "score": 36172,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 947,
+            "score": 16068,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 2830,
+            "score": 60488,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1851,
+            "score": 36056,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1856,
+            "score": 36028,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 976,
+            "score": 16456,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 3177,
+            "score": 69876,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1642,
+            "score": 32228,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2800,
+            "score": 60480,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1900,
+            "score": 36700,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 963,
+            "score": 16272,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1822,
+            "score": 35488,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 467,
+            "score": 6976,
+            "greatesTile": 512
+        },
+        {
+            "moves": 1146,
+            "score": 22820,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2827,
+            "score": 60496,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 3258,
+            "score": 71436,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 1668,
+            "score": 32356,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1446,
+            "score": 27548,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1821,
+            "score": 35528,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1887,
+            "score": 36240,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 3151,
+            "score": 69516,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 942,
+            "score": 16072,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1888,
+            "score": 36440,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1854,
+            "score": 35964,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1833,
+            "score": 35808,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 937,
+            "score": 16052,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 974,
+            "score": 16316,
+            "greatesTile": 1024
+        },
+        {
+            "moves": 1402,
+            "score": 27172,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1889,
+            "score": 36272,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1786,
+            "score": 34752,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 1664,
+            "score": 32344,
+            "greatesTile": 2048
+        },
+        {
+            "moves": 2713,
+            "score": 58808,
+            "greatesTile": 4096
+        },
+        {
+            "moves": 942,
+            "score": 16072,
+            "greatesTile": 1024
+        }
+    ]
+}

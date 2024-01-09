@@ -26,8 +26,9 @@ const translate = (translation: Translation, animationDuration: number): void =>
             const parentElementHeight = tile.parentElement!.offsetHeight
 
             setTimeout(() => {
-                const translate = `translate(${horizontalDiff * parentElementWidth}px, ${verticalDiff * parentElementHeight
-                    }px)`
+                const translate = `translate(${horizontalDiff * parentElementWidth}px, ${
+                    verticalDiff * parentElementHeight
+                }px)`
                 clone.style.transform = translate
                 setTimeout(() => tile.parentNode?.removeChild(clone), animationDuration)
             }, 10)
@@ -39,15 +40,12 @@ export function GridComponent({ grid, lastMoveResult }: { grid: Grid; lastMoveRe
     const tileSize = 100 / Board.SIZE + '%'
 
     useEffect(() => {
-        lastMoveResult?.translations
-            .forEach((translation) => translate(translation, animationDuration))
+        lastMoveResult?.translations.forEach((translation) => translate(translation, animationDuration))
     }, [lastMoveResult])
 
     const isMerge = (cell: Point): boolean => {
-        const sameDestinations = lastMoveResult?.translations
-            .filter((translation) =>
-                pointsAreEqual(translation.to, cell)
-            )?.length || 0
+        const sameDestinations =
+            lastMoveResult?.translations.filter((translation) => pointsAreEqual(translation.to, cell))?.length || 0
         return sameDestinations > 1
     }
 
@@ -60,13 +58,6 @@ export function GridComponent({ grid, lastMoveResult }: { grid: Grid; lastMoveRe
                             <TileComponent
                                 id={rowIndex * Board.SIZE + colIndex}
                                 merge={isMerge({ x: colIndex, y: rowIndex })}
-                                coming={lastMoveResult?.translations.find((translation) =>
-                                    pointsAreEqual(translation.to, { x: colIndex, y: rowIndex })
-                                ) !== undefined}
-                                leaving={lastMoveResult?.translations
-                                    .find((translation) =>
-                                        pointsAreEqual(translation.from, { x: colIndex, y: rowIndex })
-                                    ) !== undefined}
                                 created={pointsAreEqual(lastMoveResult?.created, { x: colIndex, y: rowIndex })}
                                 value={cell}
                             ></TileComponent>

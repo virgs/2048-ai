@@ -169,7 +169,6 @@ export class BoardMover {
             for (let i = Board.SIZE - 1 - mergedTiles.length; i >= 0; i--) {
                 newBoard[i][col] = 0
             }
-
         }
         const board = new Board({ grid: newBoard, score: this.board.score + score })
         const created = board.addRandomTile()

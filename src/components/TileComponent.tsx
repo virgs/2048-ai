@@ -4,7 +4,7 @@ import { fontSizeFromNumber } from '../constants/Size'
 import { animationDuration } from '../constants/Animation'
 import './TileComponent.css'
 
-export function TileComponent(props: { value: number; id: number; coming: boolean, created: boolean, leaving: boolean, merge: boolean }) {
+export function TileComponent(props: { value: number; id: number; created: boolean; merge: boolean }) {
     const defaultClasses = 'tile'
     const [value, setValue] = useState(props.value)
     const [classes, setClasses] = useState(defaultClasses)
@@ -35,7 +35,7 @@ export function TileComponent(props: { value: number; id: number; coming: boolea
     useEffect(() => {
         if (value > 0 || props.created) {
             setStyle({
-                ...colorsFromNumber(0)
+                ...colorsFromNumber(0),
             })
         }
         setTimeout(startAnimation, animationDuration)

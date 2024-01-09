@@ -23,7 +23,6 @@ export class NextMoveAiWorker {
                 resolve()
             }
         })
-
     }
 
     public async waitUntilItsReady(): Promise<void> {
