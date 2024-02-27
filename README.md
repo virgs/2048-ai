@@ -1,10 +1,21 @@
 # 2048 - AI
 
-Yet another aritifial intelligence applied to game project of mine. You can [play it here](https://virgs.github.io/2048-ai)
-
 ![Screenshot](./screenshot.png)
 
-This implementation provides you 2 AI actions:
+Yet another artificial intelligence applied to a game project of mine. You can [play it here](https://virgs.github.io/2048-ai)
+If you haven't done it yet, I highly recommend checking the other ones I have on GitHub:
+
+- [Pacman](https://github.com/virgs/pacman)
+- [Sudoku](https://github.com/virgs/sudoku)
+- [Minesweeper AI](https://github.com/virgs/minesweeper-ai)
+- [Flappy Bird AI](https://github.com/virgs/flappy-bird-ai)
+- [Rubik's Cubes AI](https://github.com/virgs/rubiks-cubes-ai)
+- [Mancala](https://github.com/virgs/mancala)
+- [Tetris](https://github.com/virgs/tetris)
+
+----
+
+This implementation provides you with 2 AI actions:
 
 1. *Make one move*: makes the best move according to the [AI](#pure-mtcs).
 2. *Play*: it essentially keeps *making one move* repeatedly. It makes a move, then based on the updated board configuration, makes another move, and so on...
