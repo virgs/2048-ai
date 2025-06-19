@@ -26,7 +26,7 @@ function App() {
     const [moves, setMoves] = useState<Direction[]>([])
     const [lastMoveResult, setLastMoveResult] = useState<MoveResult>()
 
-    let timer: number | undefined
+    let timer: NodeJS.Timeout | undefined
 
     useEffect(() => {
         //@ts-ignore

@@ -214,6 +214,27 @@ describe('BoardMover', () => {
                 const grid = [
                     [2, 0, 0, 0],
                     [2, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [8, 0, 0, 0],
+                ]
+                const board = createBoardWithGrid(grid)
+                const mover = new BoardMover(board)
+
+                const result = mover.move(Direction.Up)
+
+                expect(result.board.grid).toEqual([
+                    [4, 0, 0, 0],
+                    [8, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                ])
+                expect(result.board.score).toBe(4) // Only one merge: 2+2=4
+            })
+
+            it('should NOT merge newly created tiles when moving up', () => {
+                const grid = [
+                    [2, 0, 0, 0],
+                    [2, 0, 0, 0],
                     [4, 0, 0, 0],
                     [4, 0, 0, 0],
                 ]
@@ -223,8 +244,8 @@ describe('BoardMover', () => {
                 const result = mover.move(Direction.Up)
 
                 expect(result.board.grid).toEqual([
-                    [8, 0, 0, 0],
                     [4, 0, 0, 0],
+                    [8, 0, 0, 0],
                     [0, 0, 0, 0],
                     [0, 0, 0, 0],
                 ])

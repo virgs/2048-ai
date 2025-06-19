@@ -87,15 +87,18 @@ export class BoardMover {
         for (let col = 0; col < Board.SIZE; col++) {
             const tiles: number[] = this.board.grid.map((row) => row[col])
             const mergedTiles: number[] = []
+            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
 
             for (let i = 0; i < tiles.length; i++) {
                 if (tiles[i] !== 0) {
                     const currentTile = tiles[i]
                     const prevMergedTile = mergedTiles[mergedTiles.length - 1]
+                    const prevMergedIndex = mergedTiles.length - 1
 
-                    if (prevMergedTile === currentTile) {
-                        // Merge tiles
+                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
+                        // Merge tiles only if the previous tile hasn't already been merged
                         mergedTiles[mergedTiles.length - 1] *= 2
+                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
                         tiles[i] = 0
                         score += mergedTiles[mergedTiles.length - 1]
                     } else {
@@ -137,15 +140,18 @@ export class BoardMover {
         for (let col = 0; col < Board.SIZE; col++) {
             const tiles: number[] = this.board.grid.map((row) => row[col])
             const mergedTiles: number[] = []
+            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
 
             for (let i = tiles.length - 1; i >= 0; i--) {
                 if (tiles[i] !== 0) {
                     const currentTile = tiles[i]
                     const prevMergedTile = mergedTiles[mergedTiles.length - 1]
+                    const prevMergedIndex = mergedTiles.length - 1
 
-                    if (prevMergedTile === currentTile) {
-                        // Merge tiles
+                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
+                        // Merge tiles only if the previous tile hasn't already been merged
                         mergedTiles[mergedTiles.length - 1] *= 2
+                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
                         tiles[i] = 0
                         score += mergedTiles[mergedTiles.length - 1]
                     } else {
@@ -187,15 +193,18 @@ export class BoardMover {
         for (let row = 0; row < Board.SIZE; row++) {
             const tiles: number[] = this.board.grid[row]
             const mergedTiles: number[] = []
+            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
 
             for (let i = 0; i < tiles.length; i++) {
                 if (tiles[i] !== 0) {
                     const currentTile = tiles[i]
                     const prevMergedTile = mergedTiles[mergedTiles.length - 1]
+                    const prevMergedIndex = mergedTiles.length - 1
 
-                    if (prevMergedTile === currentTile) {
-                        // Merge tiles
+                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
+                        // Merge tiles only if the previous tile hasn't already been merged
                         mergedTiles[mergedTiles.length - 1] *= 2
+                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
                         tiles[i] = 0
                         score += mergedTiles[mergedTiles.length - 1]
                     } else {
@@ -238,15 +247,18 @@ export class BoardMover {
         for (let row = 0; row < Board.SIZE; row++) {
             const tiles: number[] = this.board.grid[row]
             const mergedTiles: number[] = []
+            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
 
             for (let i = tiles.length - 1; i >= 0; i--) {
                 if (tiles[i] !== 0) {
                     const currentTile = tiles[i]
                     const prevMergedTile = mergedTiles[mergedTiles.length - 1]
+                    const prevMergedIndex = mergedTiles.length - 1
 
-                    if (prevMergedTile === currentTile) {
-                        // Merge tiles
+                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
+                        // Merge tiles only if the previous tile hasn't already been merged
                         mergedTiles[mergedTiles.length - 1] *= 2
+                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
                         tiles[i] = 0
                         score += mergedTiles[mergedTiles.length - 1]
                     } else {
