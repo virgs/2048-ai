@@ -65,6 +65,27 @@ describe('BoardMover', () => {
                 expect(result.translations.length).toBeGreaterThan(0)
             })
 
+            it('should NOT merge newly created tiles', () => {
+                const grid = [
+                    [2, 2, 4, 4],
+                    [8, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                ]
+                const board = createBoardWithGrid(grid)
+                const mover = new BoardMover(board)
+
+                const result = mover.move(Direction.Left)
+
+                expect(result.board.grid).toEqual([
+                    [4, 8, 0, 0],
+                    [8, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                ])
+                expect(result.board.score).toBe(12) // 4 + 8 = 12
+            })
+
             it('should not move when no move is possible to the left', () => {
                 const grid = [
                     [2, 4, 8, 16],
@@ -144,6 +165,27 @@ describe('BoardMover', () => {
                     [0, 0, 0, 8],
                     [0, 0, 0, 0],
                     [0, 0, 0, 0],
+                ])
+                expect(result.board.score).toBe(12) // 4 + 8 = 12
+            })
+
+            it('should NOT merge newly created tiles', () => {
+                const grid = [
+                    [2, 2, 4, 4],
+                    [2, 0, 0, 0],
+                    [4, 0, 0, 0],
+                    [4, 0, 0, 0],
+                ]
+                const board = createBoardWithGrid(grid)
+                const mover = new BoardMover(board)
+
+                const result = mover.move(Direction.Right)
+
+                expect(result.board.grid).toEqual([
+                    [0, 0, 4, 8],
+                    [0, 0, 0, 2],
+                    [0, 0, 0, 4],
+                    [0, 0, 0, 4],
                 ])
                 expect(result.board.score).toBe(12) // 4 + 8 = 12
             })
@@ -231,7 +273,7 @@ describe('BoardMover', () => {
                 expect(result.board.score).toBe(4) // Only one merge: 2+2=4
             })
 
-            it('should NOT merge newly created tiles when moving up', () => {
+            it('should NOT merge newly created tiles', () => {
                 const grid = [
                     [2, 0, 0, 0],
                     [2, 0, 0, 0],

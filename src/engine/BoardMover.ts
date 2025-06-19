@@ -54,6 +54,52 @@ export class BoardMover {
         }
     }
 
+    // Helper method to transpose a grid (swap rows and columns)
+    private transposeGrid(grid: number[][]): number[][] {
+        const transposed: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
+        for (let row = 0; row < Board.SIZE; row++) {
+            for (let col = 0; col < Board.SIZE; col++) {
+                transposed[col][row] = grid[row][col]
+            }
+        }
+        return transposed
+    }
+
+    // Helper method to reverse each column (vertical mirror)
+    private reverseColumns(grid: number[][]): number[][] {
+        return [...grid].reverse()
+    }
+
+    // Helper method to transform translations for different directions
+    private transformTranslations(translations: Translation[], direction: Direction): Translation[] {
+        return translations.map((translation) => {
+            let from = { ...translation.from }
+            let to = { ...translation.to }
+
+            switch (direction) {
+                case Direction.Down:
+                    // Vertical mirror transformation
+                    from.y = Board.SIZE - 1 - from.y
+                    to.y = Board.SIZE - 1 - to.y
+                    break
+                case Direction.Left:
+                    // Transpose transformation (swap x and y)
+                    ;[from.x, from.y] = [from.y, from.x]
+                    ;[to.x, to.y] = [to.y, to.x]
+                    break
+                case Direction.Right:
+                    // Transpose + reverse columns transformation
+                    ;[from.x, from.y] = [from.y, from.x]
+                    ;[to.x, to.y] = [to.y, to.x]
+                    from.y = Board.SIZE - 1 - from.y
+                    to.y = Board.SIZE - 1 - to.y
+                    break
+            }
+
+            return { from, to }
+        })
+    }
+
     private canMoveInDirection(colDelta: number, rowDelta: number): boolean {
         for (let row = 0; row < Board.SIZE; row++) {
             for (let col = 0; col < Board.SIZE; col++) {
@@ -79,51 +125,86 @@ export class BoardMover {
         return false
     }
 
-    private moveUp(): MoveResult {
-        const changes: Translation[] = []
+    // Helper method to merge a single column moving up
+    private mergeColumnUp(tiles: number[]): { mergedTiles: number[]; score: number } {
+        const mergedTiles: number[] = []
+        const mergedIndices: Set<number> = new Set()
         let score = 0
-        const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
 
-        for (let col = 0; col < Board.SIZE; col++) {
-            const tiles: number[] = this.board.grid.map((row) => row[col])
-            const mergedTiles: number[] = []
-            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
+        for (let i = 0; i < tiles.length; i++) {
+            if (tiles[i] !== 0) {
+                const currentTile = tiles[i]
+                const prevMergedTile = mergedTiles[mergedTiles.length - 1]
+                const prevMergedIndex = mergedTiles.length - 1
 
-            for (let i = 0; i < tiles.length; i++) {
-                if (tiles[i] !== 0) {
-                    const currentTile = tiles[i]
-                    const prevMergedTile = mergedTiles[mergedTiles.length - 1]
-                    const prevMergedIndex = mergedTiles.length - 1
+                if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
+                    // Merge tiles only if the previous tile hasn't already been merged
+                    mergedTiles[mergedTiles.length - 1] *= 2
+                    mergedIndices.add(prevMergedIndex)
+                    score += mergedTiles[mergedTiles.length - 1]
+                } else {
+                    // Move tile up
+                    mergedTiles.push(currentTile)
+                }
+            }
+        }
 
-                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
-                        // Merge tiles only if the previous tile hasn't already been merged
-                        mergedTiles[mergedTiles.length - 1] *= 2
-                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
-                        tiles[i] = 0
-                        score += mergedTiles[mergedTiles.length - 1]
-                    } else {
-                        // Move tile up
-                        tiles[i] = 0
-                        mergedTiles.push(currentTile)
-                    }
-                    changes.push({
+        return { mergedTiles, score }
+    }
+
+    // Helper method to generate translations for a column moving up
+    private generateTranslationsForColumn(originalTiles: number[], col: number): Translation[] {
+        const translations: Translation[] = []
+        const mergedTiles: number[] = []
+        const mergedIndices: Set<number> = new Set()
+
+        for (let i = 0; i < originalTiles.length; i++) {
+            if (originalTiles[i] !== 0) {
+                const currentTile = originalTiles[i]
+                const prevMergedTile = mergedTiles[mergedTiles.length - 1]
+                const prevMergedIndex = mergedTiles.length - 1
+
+                if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
+                    // This tile will merge with the previous one
+                    mergedIndices.add(prevMergedIndex)
+                    translations.push({
+                        from: { y: i, x: col },
+                        to: { y: prevMergedIndex, x: col },
+                    })
+                } else {
+                    // This tile will move to a new position
+                    mergedTiles.push(currentTile)
+                    translations.push({
                         from: { y: i, x: col },
                         to: { y: mergedTiles.length - 1, x: col },
                     })
                 }
             }
+        }
+
+        return translations
+    }
+
+    private moveUp(): MoveResult {
+        const changes: Translation[] = []
+        let totalScore = 0
+        const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
+
+        for (let col = 0; col < Board.SIZE; col++) {
+            const originalTiles: number[] = this.board.grid.map((row) => row[col])
+            const { mergedTiles, score } = this.mergeColumnUp(originalTiles)
+            const columnTranslations = this.generateTranslationsForColumn(originalTiles, col)
+
+            totalScore += score
+            changes.push(...columnTranslations)
 
             // Update the board with merged tiles
             for (let i = 0; i < mergedTiles.length; i++) {
                 newBoard[i][col] = mergedTiles[i]
             }
-
-            // Fill remaining rows with zeros
-            for (let i = mergedTiles.length; i < Board.SIZE; i++) {
-                newBoard[i][col] = 0
-            }
         }
-        const board = new Board({ grid: newBoard, score: this.board.score + score })
+
+        const board = new Board({ grid: newBoard, score: this.board.score + totalScore })
         const created = board.addRandomTile()
         return {
             board: board,
@@ -133,162 +214,98 @@ export class BoardMover {
     }
 
     private moveDown(): MoveResult {
-        const changes: Translation[] = []
-        let score = 0
-        const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
+        // Create a vertically mirrored board
+        const mirroredGrid = this.reverseColumns(this.board.grid)
+        const mirroredBoard = new Board({ grid: mirroredGrid, score: this.board.score })
 
-        for (let col = 0; col < Board.SIZE; col++) {
-            const tiles: number[] = this.board.grid.map((row) => row[col])
-            const mergedTiles: number[] = []
-            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
+        // Create a temporary BoardMover for the mirrored board
+        const tempMover = new BoardMover(mirroredBoard)
 
-            for (let i = tiles.length - 1; i >= 0; i--) {
-                if (tiles[i] !== 0) {
-                    const currentTile = tiles[i]
-                    const prevMergedTile = mergedTiles[mergedTiles.length - 1]
-                    const prevMergedIndex = mergedTiles.length - 1
+        // Perform moveUp on the mirrored board
+        const tempResult = tempMover.moveUp()
 
-                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
-                        // Merge tiles only if the previous tile hasn't already been merged
-                        mergedTiles[mergedTiles.length - 1] *= 2
-                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
-                        tiles[i] = 0
-                        score += mergedTiles[mergedTiles.length - 1]
-                    } else {
-                        // Move tile down
-                        tiles[i] = 0
-                        mergedTiles.push(currentTile)
-                    }
-                    changes.push({
-                        from: { y: i, x: col },
-                        to: { y: Board.SIZE - 1 - (mergedTiles.length - 1), x: col },
-                    })
-                }
-            }
+        // Mirror the result back
+        const finalGrid = this.reverseColumns(tempResult.board.grid)
+        const finalBoard = new Board({ grid: finalGrid, score: tempResult.board.score })
 
-            // Update the board with merged tiles
-            for (let i = Board.SIZE - 1; i >= Board.SIZE - mergedTiles.length; i--) {
-                newBoard[i][col] = mergedTiles[Board.SIZE - 1 - i]
-            }
+        // Transform translations back to original coordinate system
+        const transformedTranslations = this.transformTranslations(tempResult.translations, Direction.Down)
 
-            // Fill remaining rows with zeros
-            for (let i = Board.SIZE - 1 - mergedTiles.length; i >= 0; i--) {
-                newBoard[i][col] = 0
-            }
-        }
-        const board = new Board({ grid: newBoard, score: this.board.score + score })
-        const created = board.addRandomTile()
         return {
-            board: board,
-            translations: changes,
-            created: created,
+            board: finalBoard,
+            translations: transformedTranslations,
+            created: tempResult.created
+                ? {
+                      x: tempResult.created.x,
+                      y: Board.SIZE - 1 - tempResult.created.y,
+                  }
+                : undefined,
         }
     }
 
     private moveLeft(): MoveResult {
-        const changes: Translation[] = []
-        let score = 0
-        const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
+        // Create a transposed board (swap rows and columns)
+        const transposedGrid = this.transposeGrid(this.board.grid)
+        const transposedBoard = new Board({ grid: transposedGrid, score: this.board.score })
 
-        for (let row = 0; row < Board.SIZE; row++) {
-            const tiles: number[] = this.board.grid[row]
-            const mergedTiles: number[] = []
-            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
+        // Create a temporary BoardMover for the transposed board
+        const tempMover = new BoardMover(transposedBoard)
 
-            for (let i = 0; i < tiles.length; i++) {
-                if (tiles[i] !== 0) {
-                    const currentTile = tiles[i]
-                    const prevMergedTile = mergedTiles[mergedTiles.length - 1]
-                    const prevMergedIndex = mergedTiles.length - 1
+        // Perform moveUp on the transposed board
+        const tempResult = tempMover.moveUp()
 
-                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
-                        // Merge tiles only if the previous tile hasn't already been merged
-                        mergedTiles[mergedTiles.length - 1] *= 2
-                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
-                        tiles[i] = 0
-                        score += mergedTiles[mergedTiles.length - 1]
-                    } else {
-                        // Move tile left
-                        tiles[i] = 0
-                        mergedTiles.push(currentTile)
-                    }
-                    changes.push({
-                        from: { y: row, x: i },
-                        to: { y: row, x: mergedTiles.length - 1 },
-                    })
-                }
-            }
+        // Transpose the result back
+        const finalGrid = this.transposeGrid(tempResult.board.grid)
+        const finalBoard = new Board({ grid: finalGrid, score: tempResult.board.score })
 
-            // Update the board with merged tiles
-            for (let i = 0; i < mergedTiles.length; i++) {
-                newBoard[row][i] = mergedTiles[i]
-            }
+        // Transform translations back to original coordinate system
+        const transformedTranslations = this.transformTranslations(tempResult.translations, Direction.Left)
 
-            // Fill remaining columns with zeros
-            for (let i = mergedTiles.length; i < Board.SIZE; i++) {
-                newBoard[row][i] = 0
-            }
-        }
-
-        const board = new Board({ grid: newBoard, score: this.board.score + score })
-        const created = board.addRandomTile()
         return {
-            board: board,
-            translations: changes,
-            created: created,
+            board: finalBoard,
+            translations: transformedTranslations,
+            created: tempResult.created
+                ? {
+                      x: tempResult.created.y,
+                      y: tempResult.created.x,
+                  }
+                : undefined,
         }
     }
 
     private moveRight(): MoveResult {
-        const changes: Translation[] = []
-        let score = 0
-        const newBoard: number[][] = Array.from({ length: Board.SIZE }, () => Array(Board.SIZE).fill(0))
+        // For moving right: transpose -> reverse columns -> move up -> reverse columns -> transpose back
+        const transposedGrid = this.transposeGrid(this.board.grid)
+        const reversedGrid = this.reverseColumns(transposedGrid)
+        const tempBoard = new Board({ grid: reversedGrid, score: this.board.score })
 
-        for (let row = 0; row < Board.SIZE; row++) {
-            const tiles: number[] = this.board.grid[row]
-            const mergedTiles: number[] = []
-            const mergedIndices: Set<number> = new Set() // Track which positions have been merged
+        // Create a temporary BoardMover for the transformed board
+        const tempMover = new BoardMover(tempBoard)
 
-            for (let i = tiles.length - 1; i >= 0; i--) {
-                if (tiles[i] !== 0) {
-                    const currentTile = tiles[i]
-                    const prevMergedTile = mergedTiles[mergedTiles.length - 1]
-                    const prevMergedIndex = mergedTiles.length - 1
+        // Perform moveUp on the transformed board
+        const tempResult = tempMover.moveUp()
 
-                    if (prevMergedTile === currentTile && !mergedIndices.has(prevMergedIndex)) {
-                        // Merge tiles only if the previous tile hasn't already been merged
-                        mergedTiles[mergedTiles.length - 1] *= 2
-                        mergedIndices.add(prevMergedIndex) // Mark this position as merged
-                        tiles[i] = 0
-                        score += mergedTiles[mergedTiles.length - 1]
-                    } else {
-                        // Move tile right
-                        tiles[i] = 0
-                        mergedTiles.push(currentTile)
-                    }
-                    changes.push({
-                        from: { y: row, x: i },
-                        to: { y: row, x: Board.SIZE - 1 - (mergedTiles.length - 1) },
-                    })
-                }
-            }
+        // Reverse the transformations: reverse columns back, then transpose back
+        const unReversedGrid = this.reverseColumns(tempResult.board.grid)
+        const finalGrid = this.transposeGrid(unReversedGrid)
+        const finalBoard = new Board({ grid: finalGrid, score: tempResult.board.score })
 
-            // Update the board with merged tiles
-            for (let i = Board.SIZE - 1; i >= Board.SIZE - mergedTiles.length; i--) {
-                newBoard[row][i] = mergedTiles[Board.SIZE - 1 - i]
-            }
+        // Transform translations back to original coordinate system
+        const transformedTranslations = this.transformTranslations(tempResult.translations, Direction.Right)
 
-            // Fill remaining columns with zeros
-            for (let i = Board.SIZE - 1 - mergedTiles.length; i >= 0; i--) {
-                newBoard[row][i] = 0
-            }
+        // Transform the created tile position back
+        let transformedCreated = undefined
+        if (tempResult.created) {
+            // Apply reverse transformations to the created position
+            const unReversedY = Board.SIZE - 1 - tempResult.created.y
+            const unReversedX = tempResult.created.x
+            transformedCreated = { x: unReversedY, y: unReversedX }
         }
-        const board = new Board({ grid: newBoard, score: this.board.score + score })
-        const created = board.addRandomTile()
+
         return {
-            board: board,
-            translations: changes,
-            created: created,
+            board: finalBoard,
+            translations: transformedTranslations,
+            created: transformedCreated,
         }
     }
 }
