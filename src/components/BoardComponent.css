@@ -5,4 +5,7 @@
     border-radius: var(--border-radius);
     touch-action: none;
     position: relative;
+    /* Prevent layout shifts and improve animation performance */
+    contain: layout style paint;
+    transform: translateZ(0);
 }

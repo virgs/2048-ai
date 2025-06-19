@@ -17,7 +17,7 @@ export function TileComponent(props: { value: number; id: number; created: boole
     const removeAnimationClasses = () => {
         setTimeout(() => {
             setClasses(defaultClasses)
-        }, animationDuration)
+        }, animationDuration || 125) // Add fallback in case duration is still 0
     }
 
     const startAnimation = () => {
@@ -38,7 +38,7 @@ export function TileComponent(props: { value: number; id: number; created: boole
                 ...colorsFromNumber(0),
             })
         }
-        setTimeout(startAnimation, animationDuration)
+        setTimeout(startAnimation, animationDuration || 125)
     }, [props.value, props.created, props.merge])
 
     return (

@@ -18,6 +18,20 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Performance optimization for animations */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Ensure smooth animations across different devices and browsers */
+@media (prefers-reduced-motion: no-preference) {
+    * {
+        animation-fill-mode: both;
+    }
+}
+
 .feather-icon {
     vertical-align: text-bottom;
     margin: 0 5px;

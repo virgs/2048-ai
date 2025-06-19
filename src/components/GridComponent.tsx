@@ -18,6 +18,10 @@ const translate = (translation: Translation, animationDuration: number): void =>
         clone.style.position = 'absolute'
         clone.style.width = tile.offsetWidth + 'px'
         clone.style.height = tile.offsetHeight + 'px'
+        // Prevent pointer events on the clone to avoid interaction issues
+        clone.style.pointerEvents = 'none'
+        // Add will-change to optimize for animation
+        clone.style.willChange = 'transform'
 
         const parentNode = tile.parentNode
         if (parentNode) {
@@ -25,13 +29,17 @@ const translate = (translation: Translation, animationDuration: number): void =>
             const parentElementWidth = tile.parentElement!.offsetWidth
             const parentElementHeight = tile.parentElement!.offsetHeight
 
-            setTimeout(() => {
-                const translate = `translate(${horizontalDiff * parentElementWidth}px, ${
-                    verticalDiff * parentElementHeight
-                }px)`
+            // Use requestAnimationFrame for better timing
+            requestAnimationFrame(() => {
+                const translate = `translate(${horizontalDiff * parentElementWidth}px, ${verticalDiff * parentElementHeight
+                    }px)`
                 clone.style.transform = translate
-                setTimeout(() => tile.parentNode?.removeChild(clone), animationDuration)
-            }, 10)
+                setTimeout(() => {
+                    if (tile.parentNode?.contains(clone)) {
+                        tile.parentNode.removeChild(clone)
+                    }
+                }, animationDuration || 125)
+            })
         }
     }
 }

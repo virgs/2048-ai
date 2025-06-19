@@ -1,19 +1,40 @@
-const readFromCss = () =>
-    Number(
-        getComputedStyle(document.documentElement)
-            .getPropertyValue('--animation-duration')
-            .replace(/[a-zA-Z]+/g, '')
-    )
+const readFromCss = () => {
+    const value = getComputedStyle(document.documentElement)
+        .getPropertyValue('--animation-duration')
+        .replace(/[a-zA-Z]+/g, '')
+    return Number(value) || 125 // Fallback to default if unable to read
+}
 
-const timeInterval = setInterval(() => {
+let animationDuration = 0
+
+const initializeAnimationDuration = () => {
+    // Try to read immediately
+    animationDuration = readFromCss()
+
+    // If still 0, set up interval to retry
     if (animationDuration === 0) {
-        animationDuration = readFromCss()
-    } else if (animationDuration < 10) {
-        // for some reason it reads a thousandth of the original value on a mobile device
-        animationDuration *= 1000
-    } else {
-        clearInterval(timeInterval)
-    }
-}, 50)
+        const timeInterval = setInterval(() => {
+            animationDuration = readFromCss()
+            if (animationDuration > 0) {
+                // Check for mobile device reading issue
+                if (animationDuration < 10) {
+                    animationDuration *= 1000
+                }
+                clearInterval(timeInterval)
+            }
+        }, 50)
 
-export let animationDuration = readFromCss()
+        // Clear interval after max attempts to prevent infinite loops
+        setTimeout(() => {
+            clearInterval(timeInterval)
+            if (animationDuration === 0) {
+                animationDuration = 125 // Final fallback
+            }
+        }, 2000)
+    }
+}
+
+// Initialize on module load
+initializeAnimationDuration()
+
+export { animationDuration }

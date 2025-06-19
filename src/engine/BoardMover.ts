@@ -88,11 +88,16 @@ export class BoardMover {
                     ;[to.x, to.y] = [to.y, to.x]
                     break
                 case Direction.Right:
-                    // Transpose + reverse columns transformation
-                    ;[from.x, from.y] = [from.y, from.x]
-                    ;[to.x, to.y] = [to.y, to.x]
+                    // For moveRight: apply the transformation sequence that matches the board operations
+                    // moveUp results need to go through: reverse columns -> transpose
+
+                    // Step 1: Apply reverse columns
                     from.y = Board.SIZE - 1 - from.y
                     to.y = Board.SIZE - 1 - to.y
+
+                    // Step 2: Apply transpose (swap x and y)
+                    ;[from.x, from.y] = [from.y, from.x]
+                    ;[to.x, to.y] = [to.y, to.x]
                     break
             }
 
